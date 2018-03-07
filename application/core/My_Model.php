@@ -84,36 +84,19 @@ class My_Model extends CI_Model
 	 * @param  string $offset To set the offset where fetching data
 	 * @return [type]         retrun array
 	 */
-	public function get_data($where = '', $limit = '',$offset='')
+	public function get_data($where = '', $limit = '', $offset='')
 	{
-		//This condition is for get_all data 
-		if($where =='' && $limit ==''  && $offset == '')
+		$this->db->order_by("created_on", "desc"); 
+		if($where!='')
 		{
-			$query = $this->db->get($this->table_name)->result_array();
-			return $query;
+			$this->db->where($where);			
 		}
-
-		//This condition is for get_row for perticular id is given
-		if($where !='' && $limit ==''  && $offset == '')
+		if($limit!=''or $offset!='')
 		{
-			if(is_array($where))
-			{
-				$query = $this->db->get_where($this->table_name, $wheres)->row_array();
-				return $query;
-			}
-			else
-			{
-				$query = $this->db->get_where($this->table_name, array('id' => $where))->row_array();
-				return $query;
-			}
+				$this->db->limit($offset, $limit);
 		}
-
-		//This condition is for get_all data for limit and offset
-		if($where !='' && $limit !=''  && $offset != '')
-		{
-			$query = $this->db->get_where('mytable', array('id' => $id), $limit, $offset)->result_array();
-			return $query;
-		}
+		return $this->db->get($this->table_name)->result_array();
+		
 	}
 }
 ?>

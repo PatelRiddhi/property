@@ -1,20 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Properties extends MY_Controller 
+class Agencies extends MY_Controller 
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('properties_model');
+		$this->load->model('agencies_model');
 		$this->load->model('aminities_model');
 	}
 
 	public function index($start=0)
 	{
-		$data['properties'] = $this->properties_model->get_data('',$start, 8);
+		$data['agencies'] = $this->agencies_model->get_data('',$start, 8);
 		$config = $this->config1();
-		$config["base_url"] = base_url() . "properties/index";
+		$config["base_url"] = base_url() . "agencies/index";
 		$config["total_rows"] = $this->properties_model->total_row_count();
 		$config["per_page"] = 8;
 		$this->pagination->initialize($config);

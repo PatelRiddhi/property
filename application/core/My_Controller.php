@@ -30,8 +30,8 @@ class My_Controller extends CI_Controller
 	{
 		$config['cur_tag_open'] = '&nbsp;<a class="current">';
 		$config['cur_tag_close'] = '</a>';
-		$config['next_link'] = 'Next';
-		$config['prev_link'] = 'Previous';
+		$config['next_link'] = '>>';
+		$config['prev_link'] = '<<';
 		return $config;	
 	}
 }
