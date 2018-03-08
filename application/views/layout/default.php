@@ -35,7 +35,7 @@ $page = $this->uri->segment(1); ?>
         <div class="header-bar">
             <div class="container">
                 <div class="header-infobox">
-                    <strong>E-mail:</strong> <a href="#"></a><?php echo $setting_data['email']; ?></a>
+                    <strong>E-mail:</strong> <a href="#"><?php echo $setting_data['email']; ?></a>
                 </div><!-- /.header-infobox-->
 
                 <div class="header-infobox">
@@ -43,9 +43,20 @@ $page = $this->uri->segment(1); ?>
                 </div><!-- /.header-infobox-->
 
                 <ul class="header-bar-nav nav nav-register">
-    <li><a href="login.html">Login</a></li>
-    <li><a href="register.html">Register</a></li>
-    <li><a href="renew-password.html">Renew Password</a></li>
+<?php if($this->session->userdata('email') == '')
+{
+?>
+    <li><a href="<?php echo base_url('login'); ?>">Login</a></li>
+    <li><a href="<?php echo base_url('register'); ?>">Register</a></li>
+<?php 
+}
+    if($this->session->userdata('email') != '')
+{
+?>
+    <li><a href="<?php echo base_url('login/logout'); ?>">Logout</a></li>
+<?php
+}
+?>
 </ul>            </div><!-- /.container -->
         </div><!-- /.header-bar -->
 
@@ -60,7 +71,26 @@ $page = $this->uri->segment(1); ?>
                 </div><!-- /.header-identity -->
 
                 <div class="header-actions pull-right">
-                    <a href="create-agency.html" class="btn btn-regular">Create Agency Profile</a> <strong class="separator">or</strong> <a href="submit-property.html" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
+<?php
+if($this->session->userdata('email') != '')
+{
+?>
+                     <h5>Welcome!  <?php echo $this->session->userdata('email'); ?></h5>
+<?php
+}
+if($this->session->userdata('email') == '')
+{
+?>
+                    <a href="create-agency.html" class="btn btn-regular">Create Agency Profile</a> 
+<?php
+}
+    if($this->session->userdata('role') == '1')
+    {
+?>
+                    <a href="submit-property.html" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
+<?php
+    }
+?>
                 </div><!-- /.header-actions -->
 
                 <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".header-navigation">
@@ -83,15 +113,24 @@ $page = $this->uri->segment(1); ?>
     <li>
         <a   <?php if($page=='properties') echo 'class="active"';  ?> href="<?php echo base_url(); ?>properties/">Properties</a>
     </li>
-
+<?php
+    if($this->session->userdata('role') == '0' || $this->session->userdata('role') == '1' || $this->session->userdata('role') == '2')
+    {
+?>
     <li>
         <a <?php if($page=='agencies') echo 'class="active"';  ?> href="<?php echo base_url(); ?>agencies/">Agencies</a>
     </li>
-
+<?php
+    }
+    if($this->session->userdata('role') == '0' || $this->session->userdata('role') == '1' || $this->session->userdata('role') == '2')
+    {
+?>
     <li>
         <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url(); ?>agents/">Agents</a>
     </li>
-
+<?php
+    }
+?>
 </ul><!-- /.header-nav -->
                     <div class="form-search-wrapper col-sm-3">
                         <form method="post" action="?" class="form-horizontal form-search">
@@ -296,11 +335,31 @@ echo $content;
 <div class="row">
     <div class="col-sm-9">
         <ul class="footer-nav nav nav-pills">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Properties</a></li>
-            <li><a href="#">Agents</a></li>
-            <li><a href="#">Agencies</a></li>
-            <li><a href="#">Contact</a></li>
+            <li >
+        <a <?php if($page=='' || $page=='home') echo 'class="active"';  ?> href="<?php echo base_url(); ?>">Home</a>
+    </li>
+
+    <li>
+        <a   <?php if($page=='properties') echo 'class="active"';  ?> href="<?php echo base_url(); ?>properties/">Properties</a>
+    </li>
+<?php
+    if($this->session->userdata('role') == '0' || $this->session->userdata('role') == '1' || $this->session->userdata('role') == '2')
+    {
+?>
+    <li>
+        <a <?php if($page=='agencies') echo 'class="active"';  ?> href="<?php echo base_url(); ?>agencies/">Agencies</a>
+    </li>
+<?php
+    }
+    if($this->session->userdata('role') == '0' || $this->session->userdata('role') == '1' || $this->session->userdata('role') == '2')
+    {
+?>
+    <li>
+        <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url(); ?>agents/">Agents</a>
+    </li>
+<?php
+    }
+?>
         </ul><!-- /.footer-nav -->
     </div>
 

@@ -98,41 +98,40 @@ foreach ($aminities as $row)
                                     <div class="sidebar-inner">
                                         <div class="widget">
     <h3 class="widget-title">Social Networks</h3>
-
     <ul class="social social-boxed">
-        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-        <li><a href="#"><i class="fa fa-vimeo-square"></i></a></li>
-        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+        <li><a href="<?php echo $property['facebook_url']; ?>"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="<?php echo $property['twitter_url']; ?>"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="<?php echo $property['linked_in_url']; ?>"><i class="fa fa-linkedin"></i></a></li>
+        <li><a href="<?php echo $property['vimeo-square_url']; ?>"><i class="fa fa-vimeo-square"></i></a></li>
+        <li><a href="<?php echo $property['you_tube_url']; ?>"><i class="fa fa-youtube"></i></a></li>
     </ul><!-- /.social-->
 </div><!-- /.widget -->                                        <div class="widget">
     <h3 class="widget-title">Enquire</h3>
 
     <div class="widget-content">
-        <form method="post" action="?">
+        <form method="post" action="<?php echo base_url('properties/').$property['id']; ?>">
             <div class="form-group">
                 <label>Your e-mail</label>
-                <input type="text" value="" class="form-control">
+                <input type="text" name="email" class="form-control">
             </div><!-- /.form-group -->
 
             <div class="form-group">
                 <label>Date From</label>
-                <input type="date" value="" class="form-control">
+                <input type="date" name="date_from" class="form-control">
             </div><!-- /.form-group -->
 
             <div class="form-group">
                 <label>Date To</label>
-                <input type="date" value="" class="form-control">
+                <input type="date" name="date_to" class="form-control">
             </div><!-- /.form-group -->
 
             <div class="form-group">
                 <label>Message</label>
-                <textarea class="form-control"></textarea>
+                <textarea name="message" class="form-control"></textarea>
             </div><!-- /.form-group -->
 
             <div class="form-group">
-                <input type="text" value="Contact" class="btn btn-block btn-primary btn-inversed">
+                <input type="submit" name="submit" value="Contact" class="btn btn-block btn-primary btn-inversed">
             </div><!-- /.form-group -->
         </form>
     </div><!-- /.widget-content -->
@@ -154,7 +153,7 @@ foreach ($properties as $row)
             </div><!-- /.property-small-picture -->
 
             <div class="property-small-content col-sm-12 col-md-8">
-                <h3 class="property-small-title"><a href="#"><?php echo $row['title']; ?></a></h3><!-- /.property-small-title -->
+                <h3 class="property-small-title"><a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo $row['title']; ?></a></h3><!-- /.property-small-title -->
                 <div class="property-small-price"> $ <?php echo $row['prize']; if($row['status']=='rent'){ echo '<span class="property-small-price-suffix">/per month</span>';} ?></div><!-- /.property-small-price -->
             </div><!-- /.property-small-content -->
         </div><!-- /.property-small -->
@@ -164,7 +163,10 @@ foreach ($properties as $row)
     </div><!-- /.properties-small-list -->
 </div><!-- /.widget -->                                        <div class="widget">
     <h3 class="widget-title">Assigned Agents</h3>
-
+<?php
+foreach ($property['agents'] as $key => $value) 
+{
+?>
     <div class="agent-small">
         <div class="agent-small-top">
             <div class="clearfix">
@@ -180,32 +182,15 @@ foreach ($properties as $row)
 
         <div class="agent-small-bottom">
             <ul class="list-unstyled">
-                <li><i class="fa fa-phone"></i> +0-123-322-123</li>
-                <li><i class="fa fa-envelope-o"></i> <a href="#">hi@company.com</a></li>
+                <li><i class="fa fa-phone"></i> <?php echo $value['contact_no']; ?></li>
+                <li><i class="fa fa-envelope-o"></i> <a href="#"><?php echo $value['email']; ?></a></li>
             </ul>
         </div><!-- /.agent-small-bottom -->
     </div><!-- /.agent-small -->
-
-    <div class="agent-small">
-        <div class="agent-small-top">
-            <div class="clearfix">
-                <div class="agent-small-picture col-sm-12">
-                    <div class="agent-small-picture-inner">
-                        <a href="#" class="agent-small-picture-inner ">
-                            <img src="<?php echo base_url(); ?>assets/img/tmp/agents/medium/1.jpg" alt="">
-                        </a><!-- /.agent-small-picture-target -->
-                    </div><!-- /.agent-small-picture-inner -->
-                </div><!-- /.agent-small-picture -->
-            </div><!-- /.row -->
-        </div><!-- /.agent-small-top -->
-
-        <div class="agent-small-bottom">
-            <ul class="list-unstyled">
-                <li><i class="fa fa-phone"></i> +0-123-322-123</li>
-                <li><i class="fa fa-envelope-o"></i> <a href="#">hi@company.com</a></li>
-            </ul>
-        </div><!-- /.agent-small-bottom -->
-    </div><!-- /.agent-small -->
+<?php
+}
+?>
+    
 </div><!-- /.widget -->                                    </div><!-- /.sidebar-inner -->
                                 </div><!-- /.sidebar -->
                             </div>

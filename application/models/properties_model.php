@@ -17,6 +17,7 @@
  
  	public function get_data($where='', $limit='',$offset='')
  	{
+ 		
  		return parent::get_data($where,$limit,$offset);
  	}
 
@@ -28,6 +29,12 @@
 	public function get_by_id($id)
 	{
 		return parent::get_by_id($id);	
+	}
+
+	public function add_contact($data)
+	{
+		$this->table_name = 'property_contact';
+		return parent::add($data);
 	}
  	
  }
