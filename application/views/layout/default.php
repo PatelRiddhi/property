@@ -16,10 +16,12 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/realocation.css" media="screen, projection" id="css-main">
 
     <link href="http://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 
     <title>
         Realocation | Modern Real Estate Template
     </title>
+    
 </head>
 
 <body>
@@ -81,13 +83,13 @@ if($this->session->userdata('email') != '')
 if($this->session->userdata('email') == '')
 {
 ?>
-                    <a href="create-agency.html" class="btn btn-regular">Create Agency Profile</a> 
+                    <a href="<?php echo base_url('register/agency'); ?>" class="btn btn-regular">Create Agency Profile</a> 
 <?php
 }
     if($this->session->userdata('role') == '1')
     {
 ?>
-                    <a href="submit-property.html" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
+                    <a href="<?php echo base_url('agencies/property'); ?>" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
 <?php
     }
 ?>
@@ -403,7 +405,6 @@ echo $content;
     </div><!-- /#footer-wrapper -->
 </div><!-- /#wrapper -->
 
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/libraries/isotope/jquery.isotope.min.js"></script>
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=true"></script>

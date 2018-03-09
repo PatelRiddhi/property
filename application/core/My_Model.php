@@ -98,5 +98,36 @@ class My_Model extends CI_Model
 		return $this->db->get($this->table_name)->result_array();
 		
 	}
+
+	/**
+	 * This Function is for to get all countries
+	 * @return [boolean] 
+	 */
+	public function get_countries()
+	{
+		return $this->db->get('countries')->result_array();
+	}
+
+	/**
+	 * This Function is for to get all states for perticular country
+	 * @return [boolean] 
+	 */
+	public function get_states($id)
+	{
+		$this->db->where('country_id', $id);
+		return $this->db->get('states')->result_array();
+	}
+
+	/**
+	 * This Function is for to get all cities for perticular state.
+	 * @return [boolean] 
+	 */
+	public function get_cities($id)
+	{
+		$this->db->where('state_id', $id);
+		return $this->db->get('cities')->result_array();
+	}
+
+
 }
 ?>

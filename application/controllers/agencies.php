@@ -10,6 +10,8 @@ class Agencies extends MY_Controller
  		$this->load->helper(array('form', 'url'));
  		$this->load->model('agent_model');
  		$this->load->model('properties_model');
+ 		$this->load->model('aminities_model');
+ 		$this->load->helper(array('form', 'url'));
  	}
 
  	public function index($start=0)
@@ -79,6 +81,76 @@ class Agencies extends MY_Controller
 			$this->load->view('layout/default', $data);
 			$this->session->set_userdata('referred_from', current_url());
 		}
+	}
+
+	/**
+	 * For add new property
+	 * @return HTML 
+	 */
+	public function property()
+	{
+		
+		if($this->input->post())
+		{
+			$config['upload_path'] = './uploads/properties/';
+			$config['upload_url'] = base_url().'upload';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['max_size'] = '10000';
+			$config['max_width'] = '10240';
+			$config['max_height'] = '10240';
+			$this->load->library('upload', $config);
+
+			if($this->upload->do_upload('profile'))
+			{
+
+				$file_path = array('upload_data'=>$this->upload->data());
+				$path = 'uploads/properties/'.$file_path['upload_data']['file_name'];
+			}
+			else
+			{
+				echo "file upload is failed";
+			}
+
+			$property = array(
+					    'title' => $this->senitize($this->input->post('title')),
+					    'description' => senitize($this->input->post('description')),
+					    'address' => senitize($this->input->post('address'),
+					    'bath' => $this->input->post('bath'),
+					    'area' => $this->input->post('area'),
+					    'beds' => $this->input->post('beds'),
+					    'prize' => $this->input->post('prize'),
+					    'garages' => $this->input->post('garages'),
+					    'facebook_url' => $this->input->post('facebook_url'),
+					    'twitter_url' => $this->input->post('twitter_url'),
+					    'linked_in_url' => $this->input->post('linkedin_url'),
+					    'vimeo-square_url' => $this->input->post('vimeo_square_url'),
+					    'you_tube_url' => $this->input->post('youtube_url'),
+					    'country' => $this->input->post('country'),
+					    'state' => $this->input->post('state'),
+					    'city' => $this->input->post('city'),
+					    'pro_type_id' => $this->input->post('property_type'),
+					    'status' => $this->input->post('status'),
+					    'thumbnail' => $path
+						);
+			if($this->properties_model->add($property))
+			{
+				echo 'yes';
+				die;
+			}
+		}
+		else
+		{
+			$data['type'] = $this->properties_model->get_type();
+			$data['aminities'] = $this->aminities_model->get_all();
+			$data['countries'] = $this->properties_model->get_countries();
+			$data['content'] = $this->load->view('properties/new', $data, TRUE);
+			$this->load->view('layout/default', $data);
+		}
+	}
+
+	public function senitize($data)
+	{
+		return filter_var($data, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 	}
  
  }

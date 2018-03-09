@@ -13,69 +13,39 @@
                     <div class="col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9 map-navigation-positioning">
                         <div class="map-navigation-wrapper">
                             <div class="map-navigation">
-                                <form method="post" action="?" class="clearfix">
+                                <form method="post" action="#" class="clearfix">
                                     <div class="form-group col-sm-12">
                                         <label>Country</label>
 
                                         <div class="select-wrapper">
                                             <select id="select-country" class="form-control">
                                                 <option value="">Select Country</option>
-                                                <option value="czech-republic">Czech Republic</option>
-                                                <option value="germany">Germany</option>
-                                                <option value="france">France</option>
-                                                <option value="poland">Poland</option>
+<?php
+                                                foreach ($countries as  $country) 
+                                                {
+?>
+                                                    <option value="<?php echo $country['id']; ?>"><?php echo $country['name']; ?></option>
+<?php    
+                                                }
+?>
                                             </select>
                                         </div><!-- /.select-wrapper -->
                                     </div><!-- /.form-group -->
 
                                     <div class="form-group col-sm-12">
-                                        <label>Location</label>
+                                        <label>State</label>
 
                                         <div class="select-wrapper">
-                                            <select id="select-location" class="form-control">
-                                                <option value="">Select Location</option>
-                                                <option value="location-czech-republic-1" class="czech-republic">Location 1</option>
-                                                <option value="location-czech-republic-2" class="czech-republic">Location 2</option>
-                                                <option value="location-czech-republic-3" class="czech-republic">Location 3</option>
-                                                <option value="location-czech-republic-4" class="czech-republic">Location 4</option>
-                                                <option value="location-germany-1" class="germany">Location 1</option>
-                                                <option value="location-germany-2" class="germany">Location 2</option>
-                                                <option value="location-germany-3" class="germany">Location 3</option>
-                                                <option value="location-germany-4" class="germany">Location 4</option>
-                                                <option value="location-france-1" class="france">Location 1</option>
-                                                <option value="location-france-2" class="france">Location 2</option>
-                                                <option value="location-france-3" class="france">Location 3</option>
-                                                <option value="location-france-4" class="france">Location 4</option>
-                                                <option value="location-poland-1" class="poland">Location 1</option>
-                                                <option value="location-poland-2" class="poland">Location 2</option>
-                                                <option value="location-poland-3" class="poland">Location 3</option>
-                                                <option value="location-poland-4" class="poland">Location 4</option>
+                                            <select id="state" class="form-control">       
                                             </select>
                                         </div><!-- /.select-wrapper -->
                                     </div><!-- /.form-group -->
 
                                     <div class="form-group col-sm-12">
-                                        <label>Sublocation</label>
+                                        <label>City</label>
 
                                         <div class="select-wrapper">
-                                            <select id="select-sublocation" class="form-control">
-                                                <option value="">Select Sublocation</option>
-                                                <option value="location-czech-republic-1" class="location-czech-republic-1">Sublocation Czech 1</option>
-                                                <option value="location-czech-republic-2" class="location-czech-republic-2">Sublocation Czech 2</option>
-                                                <option value="location-czech-republic-3" class="location-czech-republic-3">Sublocation Czech 3</option>
-                                                <option value="location-czech-republic-4" class="location-czech-republic-4">Sublocation Czech 4</option>
-                                                <option value="location-germany-1" class="location-germany-1">Sublocation Germany 1</option>
-                                                <option value="location-germany-2" class="location-germany-2">Sublocation Germany 2</option>
-                                                <option value="location-germany-3" class="location-germany-3">Sublocation Germany 3</option>
-                                                <option value="location-germany-4" class="location-germany-4">Sublocation Germany 4</option>
-                                                <option value="location-france-1" class="location-france-1">Sublocation France 1</option>
-                                                <option value="location-france-2" class="location-france-2">Sublocation France 2</option>
-                                                <option value="location-france-3" class="location-france-3">Sublocation France 3</option>
-                                                <option value="location-france-4" class="location-france-4">Sublocation France 4</option>
-                                                <option value="location-poland-1" class="location-poland-1">Sublocation Poland 1</option>
-                                                <option value="location-poland-2" class="location-poland-2">Sublocation Poland 2</option>
-                                                <option value="location-poland-3" class="location-poland-3">Sublocation Poland 3</option>
-                                                <option value="location-poland-4" class="location-poland-4">Sublocation Poland 4</option>
+                                            <select id="city" class="form-control">
                                             </select>
                                         </div><!-- /.select-wrapper -->
                                     </div><!-- /.form-group -->
@@ -146,7 +116,7 @@ foreach ($properties as $row)
     <div class="property-item property-featured col-sm-6 col-md-3">
         <div class="property-box">
             <div class="property-box-inner">
-                <h3 class="property-box-title"><a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo $row['street']; ?></a></h3>
+                <h3 class="property-box-title"><a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo $row['state']; ?></a></h3>
                 <h4 class="property-box-subtitle"><a href="#"><?php echo $row['city']; ?></a></h4>
 
                 <div class="property-box-label property-box-label-primary"><?php echo $row['status']; ?></div>
@@ -220,7 +190,7 @@ foreach ($remaining_properties as $row)
 <li>
     <div class="property-box no-border small">
         <div class="property-box-inner">
-            <h3 class="property-box-title"><a href="#"><?php echo $row['street']; ?></a></h3>
+            <h3 class="property-box-title"><a href="#"><?php echo $row['state']; ?></a></h3>
             <h4 class="property-box-subtitle"><a href="#"><?php echo $row['city']; ?></a></h4>
             <div class="property-box-label property-box-label-primary"><?php echo $row['status']; ?></div><!-- /.property-box-label -->
 
@@ -348,4 +318,43 @@ foreach ($remaining_properties as $row)
     </div><!-- /#main -->
 </div><!-- /#main-wrapper -->
 
-    
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#select-country").change(function(){
+            var id=$("#select-country").val();
+            $.ajax({
+                url: '<?php echo base_url('home/get_state');?>',
+                type: 'POST',
+                data: {"id":id},
+                success: function(data){
+                    $("#state").html(data);
+                },
+                error: function(errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $("#state").change(function(){
+            var id=$("#state").val();
+            $.ajax({
+                url: '<?php echo base_url('home/get_city');?>',
+                type: 'POST',
+                data: {"id":id},
+                success: function(data){
+                    $("#city").html(data);
+                },
+                error: function(errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+
+        });
+
+
+    });
+
+</script>

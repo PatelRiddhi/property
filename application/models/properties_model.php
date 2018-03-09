@@ -36,6 +36,17 @@
 		$this->table_name = 'property_contact';
 		return parent::add($data);
 	}
+
+	public function get_type()
+	{
+		$this->table_name = 'property_type';
+		return parent::get_all();
+	}
+
+	public function add($data)
+	{
+		return parent::add($data);
+	}
  	
  }
  

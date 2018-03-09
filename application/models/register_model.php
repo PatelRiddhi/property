@@ -10,20 +10,38 @@ class Register_model extends MY_Model
 	
 	public function add($data)
 	{
+		$count = 0;
 		foreach ($data as $key => $value) 
 		{
 			if($key == 'register')
 			{
 				$this->table_name = 'users';
-				parent::add($data['register']);
+				if(parent::add($data['register']))
+				{
+					$count++;
+				}
 			}
 			if($key == 'login')
 			{
 				$this->table_name = 'login';
-				parent::add($data['login']);
+				if(parent::add($data['login']))
+				{
+					$count++;
+				}
+			}
+			if($key == 'agency')
+			{
+				$this->table_name = 'agencies';
+				if(parent::add($data['agency']))
+				{
+					$count++;
+				}
 			}
 		}
-		return TRUE;
+		if($count == 2)
+		{
+			return TRUE;
+		}
 	}
 }
 

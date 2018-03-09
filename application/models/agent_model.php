@@ -6,7 +6,7 @@ class Agent_Model extends MY_Model
 	public function __construct()
 	{
 		parent::__construct();
-		$this->table_name = 'agent';
+		$this->table_name = 'agents';
 	}
 	
 	public function get_all()
