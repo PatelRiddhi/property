@@ -48,15 +48,19 @@ class My_Model extends CI_Model
 		return $this->db->update($this->table_name, $data); 
 	}
 
-	public function add($data)
+	public function add($data, $multiple='')
 	{
-		$this->db->insert($this->table_name, $data);
-		return $this->db->insert_id(); 
-	}
-
-	public function add_img($data)
-	{
-		return $this->db->insert_batch($this->table_name, $data);
+		if($multiple==true)
+		{
+			$this->table_name = 'property_image';
+			return $this->db->insert_batch($this->table_name, $data);
+		}
+		else
+		{
+			$this->db->insert($this->table_name, $data);
+			return $this->db->insert_id(); 
+		}
+		return false;
 	}
 
 	public function total_row_count()

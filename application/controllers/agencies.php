@@ -12,7 +12,8 @@ class Agencies extends MY_Controller
  		$this->load->model('properties_model');
  		$this->load->model('aminities_model');
  		$this->load->helper(array('form', 'url'));
- 	}
+		//$this->load->library('upload'); 	
+	}
 
  	public function index($start=0)
 	{
@@ -89,32 +90,37 @@ class Agencies extends MY_Controller
 	 */
 	public function property()
 	{
-		
 		if($this->input->post())
 		{
-			$config['upload_path'] = './uploads/properties/';
+
+
+			$config['upload_path'] = './uploads/properties';
 			$config['upload_url'] = base_url().'upload';
 			$config['allowed_types'] = 'gif|jpg|png';
-			$config['max_size'] = '10000';
-			$config['max_width'] = '10240';
-			$config['max_height'] = '10240';
-			$this->load->library('upload', $config);
-
-			if($this->upload->do_upload('profile'))
+			$config['max_size']  = '10000';
+			$config['max_width']  = '102040';
+			$config['max_height']  = '76800';
+			$this->upload->initialize($config);
+			if($data = $this->upload->do_multi_upload("photoimg")) 
 			{
-
-				$file_path = array('upload_data'=>$this->upload->data());
-				$path = 'uploads/properties/'.$file_path['upload_data']['file_name'];
+				$gallery = array_column($this->upload->get_multi_upload_data(), 'file_name');
 			}
 			else
 			{
-				echo "file upload is failed";
+				print_r($this->upload->display_errors());
 			}
-
+			if($data = $this->upload->do_multi_upload("profile")) 
+			{
+				$path = 'uploads/properties/'.$this->upload->data()['file_name'];
+			}
+			else
+			{
+				print_r($this->upload->display_errors());
+			}
 			$property = array(
-					    'title' => $this->senitize($this->input->post('title')),
-					    'description' => senitize($this->input->post('description')),
-					    'address' => senitize($this->input->post('address'),
+					    'title' => $this->input->post('title'),
+					    'description' => $this->input->post('description'),
+					    'address' => $this->input->post('address'),
 					    'bath' => $this->input->post('bath'),
 					    'area' => $this->input->post('area'),
 					    'beds' => $this->input->post('beds'),
@@ -132,10 +138,17 @@ class Agencies extends MY_Controller
 					    'status' => $this->input->post('status'),
 					    'thumbnail' => $path
 						);
-			if($this->properties_model->add($property))
+			if($pro_id = $this->properties_model->add($property))
 			{
-				echo 'yes';
-				die;
+				$arr=array();
+				foreach ($gallery as $path) 
+				{
+				     array_push($arr,array('pro_id'=>$pro_id,'path'=>'uploads/properties/'.$path));	
+				}
+				if($this->properties_model->add($arr,true))
+				{
+					redirect(base_url('properties/'.$pro_id));
+				}		
 			}
 		}
 		else

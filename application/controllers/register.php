@@ -28,7 +28,7 @@ class Register extends MY_Controller
 					    'role' => 0
 					);
 
-			if($this->register_model->add($data))
+			if($this->register_model->register($data))
 			{
 				redirect('login', 'refresh');
 			}
@@ -63,7 +63,7 @@ class Register extends MY_Controller
 						'role' => 1
 						);
 
-			if($this->register_model->add($data))
+			if($this->register_model->register($data))
 			{
 				redirect('login', 'refresh');
 			}

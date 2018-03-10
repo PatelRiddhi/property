@@ -8,7 +8,7 @@ class Register_model extends MY_Model
 		parent::__construct();
 	}
 	
-	public function add($data)
+	public function register($data)
 	{
 		$count = 0;
 		foreach ($data as $key => $value) 

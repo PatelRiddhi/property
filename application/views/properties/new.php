@@ -1,5 +1,7 @@
 <script src="<?php echo base_url('assets/js/ckeditor/ckeditor.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.wallform.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.validate.min.js"></script>
 <style type="text/css">
     .error{
@@ -17,13 +19,14 @@ $(document).ready(function(){
                 required: true
             },
             area:{
-                required: true
+                required: true,
+                digits:true
             },
             address: {
                 required: true
             },
             profile: {
-                required: true,
+                required: true
             },
             prize: {
                 required: true,
@@ -48,7 +51,8 @@ $(document).ready(function(){
                 required: "Please Enter Description"
             },
             area:{
-                required: "Please Enter Area"
+                required: "Please Enter Area",
+                digits:"Please enter digits"
             },
             address: {
                 required: "Please Enter Address"
@@ -58,9 +62,6 @@ $(document).ready(function(){
             },
             prize: {
                 required: "Please Enter Price"
-            },
-            gallery:{
-                required: "Please Choose Gallery"
             },
             password: {
                 required: "Please Enter password",
@@ -123,8 +124,10 @@ $(document).ready(function(){
                                     <div class="col-sm-4">
                                         <div class="box">
                                             <div class="form-group">
-                                                <label>Profile</label>
-                                                <input type="file" name="profile" id="profile" class="form-control">
+                                                <label>Profile</label>                        
+                                                    
+                                                    <input type="file" name="profile[]" id="profile" onchange="loadFile(event)" class="form-control">
+                                                    <img id="preview" height="100" width="100" />
                                             </div><!-- /.form-group -->
                                         </div>
                                     </div>
@@ -132,7 +135,11 @@ $(document).ready(function(){
                                         <div class="box">
                                             <div class="form-group">
                                                 <label>Gallery</label>
-                                                <input type="file" name="gallery[]" id="gallery" class="form-control">
+                                                <div id='galleries'></div>
+                                                <div id='imageloadstatus' style='display:none'><img src="<?php echo base_url();?>assets/img/loader.gif" alt="Uploading...."/></div>
+                                                <div id='imageloadbutton'>
+                                                <input type="file" name="photoimg[]" id="photoimg" multiple="multiple"/>
+                                                </div> 
                                             </div><!-- /.form-group -->
                                         </div>
                                     </div>
@@ -287,6 +294,41 @@ $(document).ready(function(){
     </div><!-- /#main-wrapper -->
 
 <script type="text/javascript">
+
+    $(document).ready(function(){ 
+        $('#photoimg').die('click').live('change', function() { 
+        var ins = document.getElementById('photoimg').files.length;
+        for (var x = 0; x < ins; x++)
+        {
+            var tmp=URL.createObjectURL(this.files[x]);
+            $("#galleries").append("<img src="+tmp+" height=100 width=100>&nbsp;");
+            //alert(URL.createObjectURL(this.files[x]));
+        }
+                  //$("#preview").html(''); 
+        $("#form").ajaxForm({
+                            target: '#galleries', 
+                            beforeSubmit:function()
+                            { 
+                                console.log('v');
+                                $("#imageloadstatus").show();
+                                $("#imageloadbutton").hide();
+                            }, 
+                            success:function()
+                            { 
+                                console.log('z');
+                                $("#imageloadstatus").hide();
+                                $("#imageloadbutton").show();
+                            }, 
+                            error:function()
+                            { 
+                                console.log('d');
+                                $("#imageloadstatus").hide();
+                                $("#imageloadbutton").show();
+                            } 
+                        });
+        });
+    }); 
+
     $(document).ready(function(){
         $("#select-country").change(function(){
             var id=$("#select-country").val();
@@ -318,10 +360,18 @@ $(document).ready(function(){
                     console.log( errorThrown );
                 }
             });
-
         });
-
-
     });
 
+    var loadFile = function(event) 
+    {
+        var preview = document.getElementById('preview');
+        preview.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    
 </script>
+
+
+
+

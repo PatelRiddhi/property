@@ -43,11 +43,11 @@
 		return parent::get_all();
 	}
 
-	public function add($data)
+	public function add($data,$multiple='')
 	{
-		return parent::add($data);
+		return parent::add($data,$multiple);
 	}
- 	
+
  }
  
  /* End of file properties_model.php */
