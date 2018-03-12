@@ -50,9 +50,14 @@ class My_Model extends CI_Model
 
 	public function add($data, $multiple='')
 	{
-		if($multiple==true)
+		if($multiple=='image')
 		{
 			$this->table_name = 'property_image';
+			return $this->db->insert_batch($this->table_name, $data);
+		}
+		elseif($multiple=='aminities')
+		{
+			$this->table_name = 'property_amenities';
 			return $this->db->insert_batch($this->table_name, $data);
 		}
 		else

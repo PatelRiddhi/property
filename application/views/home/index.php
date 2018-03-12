@@ -55,11 +55,15 @@
 
                                         <div class="select-wrapper">
                                             <select class="form-control">
-                                                <option value="apartment">Apartment</option>
-                                                <option value="building-arae">Building Area</option>
-                                                <option value="condo">Condo</option>
-                                                <option value="house">House</option>
-                                                <option value="villa">Villa</option>
+                                                <option value="-1">--Select Type--</option>
+<!-- <?php
+    foreach($type as $value)
+    {
+?> -->
+                                                <!-- <option value="<?php //echo $value['id']; ?>"><?php //echo $value['name']; ?></option> -->
+<!-- <?php
+    }
+?> -->
                                             </select>
                                         </div><!-- /.select-wrapper -->
                                     </div><!-- /.form-group -->

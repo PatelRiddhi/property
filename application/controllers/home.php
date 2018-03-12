@@ -11,6 +11,7 @@ class Home extends MY_Controller
 	
 	public function index()
 	{
+		//$data['type'] = $this->properties_model->get_type();
 		$data['countries'] = $this->properties_model->get_countries();
 		$data['properties'] = $this->properties_model->get_data('',0,8);
 		$data['total'] = $this->properties_model->total_row_count();

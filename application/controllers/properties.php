@@ -67,7 +67,6 @@ class Properties extends MY_Controller
 				$temp = $this->agent_model->get_by_id($value['agent_id']);
 				array_push($data['property']['agents'], $temp);
 			}
-
 			$data['aminities'] = $this->aminities_model->get_all();	
 			$data['content'] = $this->load->view('properties/property', $data, TRUE);
 			$this->load->view('layout/default', $data);

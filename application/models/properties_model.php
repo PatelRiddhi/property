@@ -10,15 +10,16 @@
  		$this->table_name = 'properties';
  	}
 
- 	public function get_all()
- 	{
- 		return parent::get_all();
- 	}
+ 	// public function get_all()
+ 	// {
+ 	// 	return parent::get_all();
+ 	// }
  
  	public function get_data($where='', $limit='',$offset='')
  	{
- 		
- 		return parent::get_data($where,$limit,$offset);
+
+ 		$data = parent::get_data($where,$limit,$offset);
+ 		return $data;
  	}
 
  	public function total_row_count()
@@ -48,6 +49,50 @@
 		return parent::add($data,$multiple);
 	}
 
+	public function type($id)
+	{
+		$this->table_name = 'property_type';
+		$this->db->select('name');
+		$this->db->where('id', $id);
+		$q = $this->db->get($this->table_name)->row_array();
+		return $q;
+	}
+
+	public function delete($id)
+	{
+		//delete eminities..
+		$this->db->where('pro_id', $id);
+		if($this->db->delete('property_amenities'))
+		{
+			//delete property contact
+			$this->db->where('pro_id', $id);
+			if($this->db->delete('property_contact'))
+			{
+				//delete property image..
+				$this->db->where('pro_id', $id);
+				if($this->db->delete('property_image'))
+				{
+					//delete property agent.
+					$this->db->where('pro_id', $id);
+					if($this->db->delete('property_agent'))
+					{
+						//delete property
+						$this->db->where('id', $id);
+						if($this->db->delete('properties'))
+						{
+							return TRUE;
+						}
+					}				
+				}
+			}
+		}
+	}
+
+	public function search($data)
+	{
+		$this->db->like('title', $data);
+		return $this->db->get($this->table_name)->result_array();
+	}
  }
  
  /* End of file properties_model.php */

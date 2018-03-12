@@ -92,8 +92,6 @@ class Agencies extends MY_Controller
 	{
 		if($this->input->post())
 		{
-
-
 			$config['upload_path'] = './uploads/properties';
 			$config['upload_url'] = base_url().'upload';
 			$config['allowed_types'] = 'gif|jpg|png';
@@ -138,14 +136,23 @@ class Agencies extends MY_Controller
 					    'status' => $this->input->post('status'),
 					    'thumbnail' => $path
 						);
-			if($pro_id = $this->properties_model->add($property))
+			$pro_id = $this->properties_model->add($property);
+			$aminities = $this->input->post('aminities');
+			$property['aminities'] = array();
+			foreach ($aminities as $value) 
+			{
+				array_push($property['aminities'], array('pro_id'=>$pro_id, 'amen_id'=>$value));
+			}
+			$this->properties_model->add($property['aminities'], 'aminities');
+			
+			if($pro_id)
 			{
 				$arr=array();
 				foreach ($gallery as $path) 
 				{
 				     array_push($arr,array('pro_id'=>$pro_id,'path'=>'uploads/properties/'.$path));	
 				}
-				if($this->properties_model->add($arr,true))
+				if($this->properties_model->add($arr,'image'))
 				{
 					redirect(base_url('properties/'.$pro_id));
 				}		

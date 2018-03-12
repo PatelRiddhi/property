@@ -20,6 +20,13 @@ class Aminities_model extends MY_Model
 		$this->db->where('pro_id',$id);
 		return $this->db->get('property_amenities')->result_array();
 	}
+
+	public function get_name($id)
+	{
+		$this->db->select('name');
+		$this->db->where('id', $id);
+		return $this->db->get($this->table_name)->row_array();
+	}
 }
 
 /* End of file aminities_model.php */

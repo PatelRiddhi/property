@@ -54,4 +54,5 @@ $route['404_override'] = '';
 $route['properties/(:num)'] = 'properties/get_by_id/$1';
 $route['agencies/(:num)'] = 'agencies/get_by_id/$1';
 $route['agents/(:num)'] = 'agents/get_by_id/$1';
+$route['admin'] = 'admin/login';
 $route['translate_uri_dashes'] = FALSE;
