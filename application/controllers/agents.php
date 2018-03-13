@@ -14,14 +14,28 @@ class Agents extends MY_Controller
 
  	public function index()
 	{
-		$data['agents'] = $this->agent_model->get_all();
-
-		//count total properties
-		foreach ($data['agents'] as $key => $value) 
+		if($this->session->userdata('user')['role'] == 1)
 		{
-			//$temp = $this->agencies_model->count_properties($value['id']);
-			$data['agents'][$key]['properties'] =  2;//$temp; 
+			$id = $this->session->userdata('user')['record_id'];
+			$agents = $this->agencies_model->get_agents($id);
+			$agent = array();
+			foreach ($agents as $key => $value) 
+			{
+				$temp = $this->agent_model->get_by_id($value['agent_id']);
+				array_push($agent, $temp);
+			}
+			$data['agents'] = $agent;
 		}
+		else
+		{
+			$data['agents'] = $this->agent_model->get_all();
+			//count total properties
+		}
+			foreach ($data['agents'] as $key => $value) 
+			{
+				//$temp = $this->agencies_model->count_properties($value['id']);
+				$data['agents'][$key]['properties'] =  2;//$temp; 
+			}
 		$data['content'] = $this->load->view('agents/index', $data, TRUE);
 		$this->load->view('layout/default', $data);
 	}

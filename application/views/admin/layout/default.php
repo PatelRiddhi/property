@@ -36,6 +36,7 @@
             <li class="active"><a href="<?php echo base_url('admin/dashboard'); ?>"> Dashboard</a></li>
 
             <li><a href="<?php echo base_url('admin/properties'); ?>"><i class="fa fa-user"></i> Properties</a></li>
+            <li><a href="<?php echo base_url('admin/agencies'); ?>"><i class="fa fa-user"></i> Agencies</a></li>
         </ul>
           <ul class="nav navbar-nav navbar-right navbar-user">
             <a href="<?php echo base_url('admin/dashboard'); ?>"><i class="fa fa-user"></i><?php echo "Welcome  ".$this->session->userdata('username'); ?></a><br>

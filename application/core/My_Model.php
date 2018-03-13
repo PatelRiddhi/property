@@ -32,6 +32,7 @@ class My_Model extends CI_Model
 	 */
 	public function get_all()
 	{
+		$this->db->where('is_delete', 0);
 		$query = $this->db->get($this->table_name)->result_array();
 		return $query;
 	}
@@ -96,6 +97,7 @@ class My_Model extends CI_Model
 	public function get_data($where = '', $limit = '', $offset='')
 	{
 		$this->db->order_by("created_on", "desc"); 
+		$this->db->where('is_delete', 0);
 		if($where!='')
 		{
 			$this->db->where($where);			

@@ -136,7 +136,15 @@ class Agencies extends MY_Controller
 					    'status' => $this->input->post('status'),
 					    'thumbnail' => $path
 						);
-			$pro_id = $this->properties_model->add($property);
+			
+			if($pro_id = $this->properties_model->add($property))
+			{
+				$agency = array(
+							'agency_id' => $this->session->userdata('user')['record_id'],
+							'pro_id' => $pro_id
+						);
+				$this->properties_model->add_agency($agency)	
+			}
 			$aminities = $this->input->post('aminities');
 			$property['aminities'] = array();
 			foreach ($aminities as $value) 

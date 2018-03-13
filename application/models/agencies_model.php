@@ -56,6 +56,46 @@ class Agencies_model extends MY_Model
 		return $this->db->get('agency_agents')->result_array();
 	}
 
+	public function delete($id)
+	{
+		$update_data = array(
+					'is_delete' =>1);
+
+		//to get array of properties assigned to this agency
+		$properties = $this->get_properties($id);
+		$properties_ids = array_column($properties, 'pro_id');
+		
+		//to get array of agents assigned to this agency
+		$agents = $this->get_agents($id);
+		$agents_ids = array_column($agents, 'agent_id');
+		//delete agents..
+		$this->db->where_in('agency_id', $properties_ids);
+		if($this->db->update('agency_agents', $update_data))
+		{
+			$this->db->where_in('agency_id', $agents_ids);
+			if($this->db->update('project_agency', $update_data))
+			{
+				$this->db->where('agency_id', $id);
+				if($this->db->update('agency_contact', $update_data))
+				{
+					$this->db->where_in('id', $properties_ids);
+					if($this->db->update('properties', $update_data))
+					{
+						$this->db->where_in('id', $agents_ids);
+						if($this->db->update('agents', $update_data))
+						{
+							$this->db->where('id', $id);
+							if($this->db->update('agencies, $update_data'))
+							{
+								return TRUE;
+							}
+							
+						} 
+					} 
+				} 
+			} 
+		} 
+	}
 }
 
 /* End of file agencies_model.php */

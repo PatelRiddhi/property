@@ -24,27 +24,27 @@ class Properties extends MY_Controller
 	 * @return [boolean]         
 	 */
 	public function index($start=0)
-	{		
-		$data['properties'] = $this->properties_model->get_data('', $start, 5);
-		$config['cur_tag_open'] = '&nbsp;<a class="current">';
-		$config['cur_tag_close'] = '</a>';
-		$config['next_link'] = 'Next';
-		$config['prev_link'] = 'Previous';
+	{	
+			$data['properties'] = $this->properties_model->get_data('', $start, 5);
+			$config['cur_tag_open'] = '&nbsp;<a class="current">';
+			$config['cur_tag_close'] = '</a>';
+			$config['next_link'] = '>>';
+			$config['prev_link'] = '<<';
 
-		/* For Pagination */
-		$config["base_url"] = base_url() . "admin/properties/index";
-		$config["total_rows"] = $this->properties_model->total_row_count();
-		$config["per_page"] = 5;
-		$config['cur_tag_open'] = '&nbsp;<a class="current">';
-		$config['cur_tag_close'] = '</a>';
-	
-		$this->pagination->initialize($config);
-		$data['links'] = $this->pagination->create_links();
-		$data['start'] =$start; 
-		$data['content'] = $this->load->view('admin/properties/index', $data, TRUE);	
+			/* For Pagination */
+			$config["base_url"] = base_url() . "admin/properties/index";
+			$config["total_rows"] = $this->properties_model->total_row_count();
+			$config["per_page"] = 5;
+			$config['cur_tag_open'] = '&nbsp;<a class="current">';
+			$config['cur_tag_close'] = '</a>';
 		
-		$this->load->view('admin/layout/default', $data);
-		$this->session->set_userdata('referred_from', current_url());
+			$this->pagination->initialize($config);
+			$data['links'] = $this->pagination->create_links();
+			$data['start'] =$start; 
+			$data['content'] = $this->load->view('admin/properties/index', $data, TRUE);	
+			
+			$this->load->view('admin/layout/default', $data);
+			$this->session->set_userdata('referred_from', current_url());
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Properties extends MY_Controller
 				redirect($referred_from, 'refresh');
 			}
 			else
-			{
+			{	
 				$ids= $_POST['select'];
 				$c_id = count($ids);
 				$count =0;
@@ -132,58 +132,14 @@ class Properties extends MY_Controller
 	}
 
 	/**
-	 * This function is for add some data in databse or table
+	 * This is for to display more nformation about project
+	 * @param  [integer] $id 
+	 * @return [html]    
 	 */
-	// public function add()
-	// {
-	// 	if($this->input->post())
-	// 	{
-	// 		$data['movies'] = array(
-	// 						'title' =>$this->input->post('title') ,
-	// 						'year' =>$this->input->post('year') ,
-	// 						'duration' =>$this->input->post('duration') ,
-	// 						'language' =>$this->input->post('language') ,
-	// 						'release_date' =>$this->input->post('release_date') ,
-	// 						'country' =>$this->input->post('country')  
-	// 					);
-			
-	// 		$mov_id = $this->movies_model->add($data['movies']);
-	// 		$count=count($_POST['actor']);
-	// 		$actor = array();
-	// 		for($i=0; $i<$count;$i++)
-	// 		{
-	// 			array_push($actor, array('actor_id'=>$this->input->post("actor[$i]"), 'movie_id'=>$mov_id, 'role'=>$this->input->post("role[$i]")));
-	// 		}
-	// 		$data['director'] = array(
-	// 						'movie_id' => $mov_id ,
-	// 						'director_id'=>$this->input->post('director')
-	// 						);
-	// 		$data['genres'] = array(
-	// 						'genre_id' =>$this->input->post('genres') ,
-	// 						'movie_id' => $mov_id 
-	// 					);
-
-	// 		$this->actors_model->add_id($actor);
-	// 		//$this->actors_model->add_id($data['actor']);
-	// 		$this->directors_model->add_id($data['director']);
-	// 		$this->genres_model->add_id($data['genres']);
-	// 		$referred_from = $this->session->userdata('referred_from');
-	// 		redirect($referred_from, 'refresh');
-	// 	}
-	// 	else
-	// 	{
-	// 		$data['actors'] = $this->actors_model->get_all();
-	// 		$data['directors'] = $this->directors_model->get_all();
-	// 		$data['genres'] = $this->genres_model->get_all();
-	// 		$data['content'] =$this->load->view('movies/add', $data, TRUE);	
-	// 		$this->load->view('layout/default', $data);
-
-	// 	}
-	// }
-
 	public function more($id)
 	{
 		$data['property'] = $this->properties_model->get_by_id($id);
+
 		//to get array of project aminities
 		$data['property']['aminities'] = array();
 		$pro_aminities = $this->aminities_model->get_aminities($id);
@@ -192,6 +148,7 @@ class Properties extends MY_Controller
 			$name = $this->aminities_model->get_name($value['amen_id']);
 			array_push($data['property']['aminities'], $name);
 		}	
+
 		//to get array of project agents assigned to this property
 		$data['property']['agents'] = array();
 		$pro_agents = $this->agent_model->get_agents($id);
@@ -199,6 +156,13 @@ class Properties extends MY_Controller
 		{
 			$temp = $this->agent_model->get_by_id($value['agent_id']);
 			array_push($data['property']['agents'], $temp);
+		}
+
+		$data['property']['images'] = array();
+		$images = $this->properties_model->get_images($id);
+		foreach ($images as $key => $value) 
+		{
+			array_push($data['property']['images'], $value['path']);
 		}
 		$data['property']['pro_type_id'] = $this->properties_model->type($id);
 		$data['content'] = $this->load->view('admin/properties/more', $data, TRUE);

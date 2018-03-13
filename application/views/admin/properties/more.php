@@ -152,6 +152,24 @@
                                             </div>
                                           <br><br>
                                         </div>
+                                        <div class="panel">
+                                            <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Gallery:</label>
+                                            <div class="col-lg-10">
+                                                <div class="col-lg-10">
+                                                    <h5>
+                                                <?php
+                                                    foreach($property['images'] as $value)
+                                                    {
+                                                ?>
+                                                            <img src="<?php echo base_url().$value; ?>" height="100" width="100"></img>
+                                                <?php
+                                                    } 
+                                                ?>
+                                                </h5>
+                                                </div>
+                                            </div>
+                                          <br><br>
+                                        </div>
                                         <button class="btn btn-info"><a href="<?php echo base_url('admin/properties/cancel'); ?>">BACK</button>
 </div>                                        
                                             

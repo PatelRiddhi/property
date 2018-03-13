@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="agency-detail-picture">
-                    <img src="<?php echo base_url(); ?>assets/img/tmp/agents/medium/3.jpg" alt="" class="img-responsive">
+                    <img src="<?php echo base_url().$agency['profile']; ?>" alt="" class="img-responsive">
                 </div><!-- /.agent-detail-picture -->
             </div>
 

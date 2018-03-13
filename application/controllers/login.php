@@ -15,14 +15,29 @@ class Login extends MY_Controller
 		{
 			$data = array(
 							'email' => $this->input->post('email'),
-							'password' => $this->input->post('password')
+							'password' => md5($this->input->post('password'))
 						);
 			$result = $this->login_model->check_data($data);
 			if($result)
 			{
-				$this->session->set_userdata('email', $result[0]['email']);
-				$this->session->set_userdata('role', $result[0]['role']);
-				redirect('home');
+				if($result[0]['role'] == 1)
+				{
+					if($result[0]['is_active'] == 1)
+					{
+						$this->session->set_userdata('user', $result[0]);
+						redirect('home');
+					}
+					else
+					{
+						redirect('login');
+					}
+				}
+				else
+				{
+					$this->session->set_userdata('user', $result[0]);
+					redirect('home');
+				}
+				
 			}
 		}
 		$data['content'] = $this->load->view('login/index','',TRUE);
@@ -31,8 +46,7 @@ class Login extends MY_Controller
 
 	public function logout()
 	{
-		$this->session->unset_userdata('email');
-		$this->session->unset_userdata('role');
+		$this->session->unset_userdata('user');
 		redirect('home');
 	}
 }
