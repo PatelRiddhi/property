@@ -83,13 +83,14 @@ if($this->session->userdata('user') != '')
 if($this->session->userdata('user') == '')
 {
 ?>
+
                     <a href="<?php echo base_url('register/agency'); ?>" class="btn btn-regular">Create Agency Profile</a> 
 <?php
 }
     if($this->session->userdata('user')['role'] == '1')
     {
 ?>
-                    <a href="<?php echo base_url('agencies/property'); ?>" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
+                    <a href="<?php echo base_url('agents/add'); ?>" class="btn btn-regular">Create Agent Profile</a> <strong class="separator">or</strong> <a href="<?php echo base_url('properties/manage'); ?>" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
 <?php
     }
 ?>
@@ -111,7 +112,6 @@ if($this->session->userdata('user') == '')
     <li >
         <a <?php if($page=='' || $page=='home') echo 'class="active"';  ?> href="<?php echo base_url(); ?>">Home</a>
     </li>
-
     <li>
         <a   <?php if($page=='properties') echo 'class="active"';  ?> href="<?php echo base_url(); ?>properties/">Properties</a>
     </li>

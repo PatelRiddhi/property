@@ -42,6 +42,11 @@ class Agencies extends MY_Controller
 		$this->pagination->initialize($config);
 		$data['links'] = $this->pagination->create_links();
 		$data['start'] =$start; 
+		foreach ($data['agencies'] as $key=>$value) 
+		{
+			$status = $this->agencies_model->get_status($value['id']);	
+			$data['agencies'][$key]['status'] = $status['is_active'];
+		}
 		$data['content'] = $this->load->view('admin/agencies/index', $data, TRUE);	
 		
 		$this->load->view('admin/layout/default', $data);
@@ -123,6 +128,19 @@ class Agencies extends MY_Controller
 			$this->agencies_model->delete($id);
 			$referred_from = $this->session->userdata('referred_from');
 			redirect($referred_from, 'refresh');
+		}
+	}
+
+	public function approval()
+	{
+		$id = $_POST['id'];
+		if($this->agencies_model->status($id))
+		{
+			echo 1;
+		}
+		else
+		{
+			echo 0;
 		}
 	}
 

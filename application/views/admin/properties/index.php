@@ -47,12 +47,12 @@
                     <th>Sr. No. <i class="fa fa-sort"></i></th>
                     <th>Title <i class="fa fa-sort"></i></th>
                     <th>Price <i class="fa fa-sort"></i></th>
-                    <th>Area <i class="fa fa-sort"></i></th>
-                    <th>City <i class="fa fa-sort"></i></th>
-                    <th>State <i class="fa fa-sort"></i></th>
-                    <th>Country <i class="fa fa-sort"></i></th>
-                    <th>Status <i class="fa fa-sort"></i></th>
-                    <th>Thumbnail <i class="fa fa-sort"></i></th>
+                    <th>Area</th>
+                    <th>City </th>
+                    <th>State </th>
+                    <th>Country</th>
+                    <th>Status</th>
+                    <th>Thumbnail </th>
                     <th>Action</th> 
                   </tr>
                 <tbody>

@@ -76,6 +76,21 @@ class Agents extends MY_Controller
 			$this->session->set_userdata('referred_from', current_url());
 		}
 	}
+
+	public function add()
+	{
+		if($this->input->post())
+		{
+
+		}
+		else
+		{
+			$data['properties'] = $this->agencies_model->get_properties($this->session->userdata('user')['record_id']);
+			
+			$data['content'] = $this->load->view('agents/new', $data, TRUE);
+			$this->load->view('layout/default', $data);
+		}
+	}
  
  }
  

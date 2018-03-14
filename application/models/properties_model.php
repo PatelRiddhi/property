@@ -54,6 +54,7 @@
 		$this->table_name = 'project_agency';
 		return parent::add($data);
 	}
+	
 	public function type($id)
 	{
 		$this->table_name = 'property_type';
@@ -157,6 +158,11 @@
 		$this->table_name = 'property_image';
 		$this->db->where('pro_id', $id);
 		return  $this->db->get($this->table_name)->result_array();	
+	}
+
+	public function update($id, $data, $table_name)
+	{
+		return parent::update($id, $data, $table_name);
 	}
  }
  

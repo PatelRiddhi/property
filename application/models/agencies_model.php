@@ -96,6 +96,37 @@ class Agencies_model extends MY_Model
 			} 
 		} 
 	}
+
+	public function status($id)
+	{
+		$this->db->where('record_id', $id);
+		$this->db->where('role', 1);
+		$this->db->select('is_active');
+		$status = array_column($this->db->get('login')->result_array(),'is_active');
+		if($status[0] == 1)
+		{
+			$approval = array('is_active'=>0);
+			$this->db->where('role', 1);
+			$this->db->where('record_id', $id);
+			return $this->db->update('login', $approval);
+		}
+		if($status[0] ==0)
+		{
+			$approval = array('is_active'=>1);
+			$this->db->where('role', 1);
+			$this->db->where('record_id', $id);
+			return $this->db->update('login', $approval);
+		}
+	}
+
+	public function get_status($id)
+	{
+		$this->db->where('record_id', $id);
+		$this->db->where('role', 1);
+		$this->db->select('is_active');
+		$q = $this->db->get('login')->row_array();
+		return $q;
+	}
 }
 
 /* End of file agencies_model.php */

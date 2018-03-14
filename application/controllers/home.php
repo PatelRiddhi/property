@@ -26,6 +26,9 @@ class Home extends MY_Controller
 	 */
 	public function get_state()
 	{
+		// $this->db->where('name', $_POST['name']);
+		// $this->db->select('id');
+		// $id = return $this->db->get('countries';)
 		$this->db->where('country_id', $_POST['id']);
 		$states = $this->db->get('states')->result_array();
 		?>
@@ -45,6 +48,9 @@ class Home extends MY_Controller
 	 */
 	public function get_city()
 	{
+		// $this->db->where('name', $_POST['name']);
+		// $this->db->select('id');
+		// $id = return $this->db->get('states';)
 		$this->db->where('state_id', $_POST['id']);
 		$cities = $this->db->get('cities')->result_array();
 		?>

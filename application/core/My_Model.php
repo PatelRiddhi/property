@@ -43,10 +43,10 @@ class My_Model extends CI_Model
 	 * @param  [integer] $id   [description]
 	 * @return [array]       [description]
 	 */
-	public function update($id, $data)
+	public function update($id, $data, $table_name)
 	{
 		$this->db->where('id', $id);
-		return $this->db->update($this->table_name, $data); 
+		return $this->db->update($table_name, $data); 
 	}
 
 	public function add($data, $multiple='')
