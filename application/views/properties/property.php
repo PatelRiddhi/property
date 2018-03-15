@@ -7,8 +7,8 @@
                     <div class="block-content-inner">
                         <div class="row">
                             <div class="col-sm-9">
-                                <h2 class="property-detail-title"><?php echo $property['title']; ?></h2>
-                                <h3 class="property-detail-subtitle"><?php echo $property['state']; ?>, <?php echo $property['city']; ?><strong>$ <?php echo $property['prize']; ?></strong></h3>
+                                <h2 class="property-detail-title"><?php echo ucfirst($property['title']); ?></h2>
+                                <h3 class="property-detail-subtitle"><?php echo ucfirst($property['state']); ?>, <?php echo ucfirst($property['city']); ?><strong>$ <?php echo $property['prize']; ?></strong></h3>
 
                                 <div class="property-detail-overview">
                                     <div class="property-detail-overview-inner clearfix">
@@ -19,7 +19,7 @@
 
                                         <div class="property-detail-overview-item col-sm-6 col-md-2">
                                             <strong>Type:</strong>
-                                            <span><?php echo $property['status']; ?></span>
+                                            <span><?php echo ucfirst($property['status']); ?></span>
                                         </div><!-- /.property-detail-overview-item -->
 
                                         <div class="property-detail-overview-item col-sm-6 col-md-2">
@@ -46,22 +46,16 @@
 
                                 <div class="flexslider">
                                     <ul class="slides">
-
-                                        <li data-thumb="<?php echo base_url(); ?>assets/img/tmp/properties/large/3.jpg">
-                                            <img src="<?php echo base_url(); ?>assets/img/tmp/properties/large/3.jpg" alt="">
+<?php
+foreach($property['images'] as $image)
+{
+?>
+                                        <li data-thumb="<?php echo base_url().$image; ?>">
+                                            <img src="<?php echo base_url().$image; ?>" alt="">
                                         </li>
-
-                                        <li data-thumb="<?php echo base_url(); ?>assets/img/tmp/properties/large/12.jpg">
-                                            <img src="<?php echo base_url(); ?>assets/img/tmp/properties/large/12.jpg" alt="">
-                                        </li>
-
-                                        <li data-thumb="<?php echo base_url(); ?>assets/img/tmp/properties/large/5.jpg">
-                                            <img src="<?php echo base_url(); ?>assets/img/tmp/properties/large/5.jpg" alt="">
-                                        </li>
-
-                                        <li data-thumb="<?php echo base_url(); ?>assets/img/tmp/properties/large/6.jpg">
-                                          <img src="<?php echo base_url(); ?>assets/img/tmp/properties/large/6.jpg" alt="">
-                                        </li>
+<?php
+}
+?>
                                     </ul><!-- /.slides -->
                                 </div><!-- /.flexslider -->
 
@@ -73,7 +67,10 @@
                                 </p>
 
                                 <hr>
-
+<?php
+if($this->session->userdata('user'))
+{
+?>
                                 <h2>Amenities</h2>
    
                                 <div class="row">
@@ -85,12 +82,15 @@ foreach ($aminities as $row)
                                     
                                         <li class="col-xs-6 col-sm-4"><i class="fa <?php if(in_array($row['id'], $property['aminities']))
                                         { echo 'fa-check ok'; }else{ echo ' fa-ban no'; }; 
-                                        ?>" ></i><?php echo $row['name']; ?></li>
+                                        ?>" ></i><?php echo ucfirst($row['name']); ?></li>
 <?php
 }
 ?>
                                     </ul>
                                 </div><!-- /.row -->
+<?php
+}
+?>
                             </div>
 
                             <div class="col-sm-3">
@@ -99,11 +99,38 @@ foreach ($aminities as $row)
                                         <div class="widget">
     <h3 class="widget-title">Social Networks</h3>
     <ul class="social social-boxed">
+    <?php
+    if($property['facebook_url'] !='')
+    {
+    ?>
         <li><a href="<?php echo $property['facebook_url']; ?>"><i class="fa fa-facebook"></i></a></li>
+    <?php
+    }
+    if($property['twitter_url'] !='')
+    {
+    ?>
         <li><a href="<?php echo $property['twitter_url']; ?>"><i class="fa fa-twitter"></i></a></li>
+    <?php
+    }
+    if($property['linked_in_url'] !='')
+    {
+    ?>
         <li><a href="<?php echo $property['linked_in_url']; ?>"><i class="fa fa-linkedin"></i></a></li>
+    <?php
+    }
+    if($property['vimeo-square_url'] !='')
+    {
+    ?>
         <li><a href="<?php echo $property['vimeo-square_url']; ?>"><i class="fa fa-vimeo-square"></i></a></li>
+    <?php
+    }
+    if($property['you_tube_url'] !='')
+    {
+    ?>
         <li><a href="<?php echo $property['you_tube_url']; ?>"><i class="fa fa-youtube"></i></a></li>
+    <?php
+    }
+    ?>
     </ul><!-- /.social-->
 </div><!-- /.widget -->                                        <div class="widget">
     <h3 class="widget-title">Enquire</h3>
@@ -146,14 +173,14 @@ foreach ($properties as $row)
         <div class="property-small clearfix">
             <div class="property-small-picture col-sm-12 col-md-4">
                 <div class="property-small-picture-inner">
-                    <a href="#" class="property-small-picture-target">
-                        <img src="<?php echo base_url(); ?>assets/img/tmp/properties/small/1.jpg" alt="">
+                    <a href="<?php echo base_url().$row['thumbnail']; ?>" class="property-small-picture-target">
+                        <img src="<?php echo base_url().$row['thumbnail']; ?>" alt="" height="70" width="100">
                     </a>
                 </div><!-- /.property-small-picture -->
             </div><!-- /.property-small-picture -->
 
             <div class="property-small-content col-sm-12 col-md-8">
-                <h3 class="property-small-title"><a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo $row['title']; ?></a></h3><!-- /.property-small-title -->
+                <h3 class="property-small-title"><a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo ucfirst($row['title']); ?></a></h3><!-- /.property-small-title -->
                 <div class="property-small-price"> $ <?php echo $row['prize']; if($row['status']=='rent'){ echo '<span class="property-small-price-suffix">/per month</span>';} ?></div><!-- /.property-small-price -->
             </div><!-- /.property-small-content -->
         </div><!-- /.property-small -->
@@ -172,8 +199,8 @@ foreach ($property['agents'] as $key => $value)
             <div class="clearfix">
                 <div class="agent-small-picture col-sm-12">
                     <div class="agent-small-picture-inner">
-                        <a href="#" class="agent-small-picture-inner ">
-                            <img src="<?php echo base_url(); ?>assets/img/tmp/agents/medium/3.jpg" alt="">
+                        <a href="<?php echo base_url().$value['profile']; ?>" class="agent-small-picture-inner ">
+                            <img src="<?php echo base_url().$value['profile']; ?>" alt="" height="200" width="200">
                         </a><!-- /.agent-small-picture-target -->
                     </div><!-- /.agent-small-picture-inner -->
                 </div><!-- /.agent-small-picture -->
@@ -182,6 +209,7 @@ foreach ($property['agents'] as $key => $value)
 
         <div class="agent-small-bottom">
             <ul class="list-unstyled">
+                <li><h3 class="agent-box-title"><a href="<?php echo base_url('agents/').$value['id']; ?>"><?php echo ucfirst($value['first_name'])." ".ucfirst($value['last_name']);?></a></h3><!-- /.agent-row-title --></li>
                 <li><i class="fa fa-phone"></i> <?php echo $value['contact_no']; ?></li>
                 <li><i class="fa fa-envelope-o"></i> <a href="#"><?php echo $value['email']; ?></a></li>
             </ul>

@@ -28,8 +28,8 @@ class Agencies extends MY_Controller
 		//count total properties
 		foreach ($data['agencies'] as $key => $value) 
 		{
-			//$temp = $this->agencies_model->count_properties($value['id']);
-			$data['agencies'][$key]['properties'] =  2;//$temp; 
+			$temp = $this->agencies_model->count_properties($value['id']);
+			$data['agencies'][$key]['properties'] = count($temp); 
 		}
 		$data['properties'] = $this->properties_model->get_data('',$start, 3);
 		$data['content'] = $this->load->view('agencies/index', $data, TRUE);

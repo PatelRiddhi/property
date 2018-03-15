@@ -6,7 +6,7 @@
                         <div class="block-content-inner">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <h2 class="center">Properties Grid</h2>
+                                    <h2 class="center">Properties </h2>
                                       <div class="row">
 <?php
 foreach ($properties as $row) 
@@ -16,15 +16,15 @@ foreach ($properties as $row)
                                         <div class="property-item property-featured col-sm-6 col-md-3">
                                             <div class="property-box">
                                                 <div class="property-box-inner">
-                                                    <h3 class="property-box-title"><a href="<?php echo base_url('properties/').$row['id']; ?>" ><?php echo $row['title']; ?></a></h3>
-                                                    <h4 class="property-box-subtitle"><a href="#"><?php echo $row['city'].",".$row['country']."."; ?></a></h4>
+                                                    <h3 class="property-box-title"><a href="<?php echo base_url('properties/').$row['id']; ?>" ><?php echo ucfirst($row['title']); ?></a></h3>
+                                                    <h4 class="property-box-subtitle"><a href="#"><?php echo ucfirst($row['city']).",".ucfirst($row['country'])."."; ?></a></h4>
                                                     <div class="property-box-label property-box-label-primary"><?php echo $row['status']; ?></div><!-- /.property-box-label -->
 
                                                     <div class="property-box-picture">
                                                         <div class="property-box-price">$ <?php echo $row['prize']; if($row['status']=='rent'){ echo '/month';} ?></div><!-- /.property-box-price -->
                                                         <div class="property-box-picture-inner">
-                                                            <a href="#" class="property-box-picture-target">
-                                                                <img src="<?php echo base_url(); ?>assets/img/tmp/properties/medium/5.jpg" alt="">
+                                                            <a href="<?php echo base_url().$row['thumbnail']; ?>" class="property-box-picture-target">
+                                                                <img src="<?php echo base_url().$row['thumbnail']; ?>" alt="" height="250" width="300">
                                                             </a><!-- /.property-box-picture-target -->
                                                         </div><!-- /.property-picture-inner -->
                                                     </div><!-- /.property-picture -->

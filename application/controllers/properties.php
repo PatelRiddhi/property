@@ -87,6 +87,8 @@ class Properties extends MY_Controller
 				$temp = $this->agent_model->get_by_id($value['agent_id']);
 				array_push($data['property']['agents'], $temp);
 			}
+			$pro_images = $this->properties_model->get_images($id);
+			$data['property']['images'] = array_column($pro_images,'path');
 			$data['aminities'] = $this->aminities_model->get_all();	
 			$data['content'] = $this->load->view('properties/property', $data, TRUE);
 			$this->load->view('layout/default', $data);
@@ -100,6 +102,7 @@ class Properties extends MY_Controller
 	 */
 	public function manage($id='')
 	{
+		//For add property///
 		if($id !='')
 		{
 			if($this->input->post())
@@ -199,7 +202,8 @@ class Properties extends MY_Controller
 				$data['content'] = $this->load->view('properties/edit', $data, TRUE);
 				$this->load->view('layout/default', $data);
 			}
-		}
+		}//End of if loop
+		//For edit property...
 		else
 		{
 			if($this->input->post())

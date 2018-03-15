@@ -32,8 +32,9 @@
                 <form id="checkboxdata" method="post" >
             </div>
             <div class="col-lg-12 pull-right">
-                <input type="text" name="table_search" id="search_box" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
                 <button type="button" name="search" class="btn btn-sm btn-default pull-right" id="search" ><i class="fa fa-search"></i></button>
+                <input type="text" name="table_search" id="search_box" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search"/>
+                
               </form>    
               </p>
             </div>
@@ -93,3 +94,20 @@ foreach ($properties as $row)
               </ul>
             </div>
           </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#delete_all').hide();
+    $('input[type=checkbox]').change(function(){
+      var total=$('input[name="select[]"]:checked').length;
+      if(total>0)
+      {
+          $('#delete_all').show();
+      }
+      else
+      {
+           $('#delete_all').hide();
+      }
+    });
+    
+  });
+</script>

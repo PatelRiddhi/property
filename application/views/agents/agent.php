@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="agency-detail-picture">
-                    <img src="<?php echo base_url(); ?>assets/img/tmp/agents/medium/3.jpg" alt="" class="img-responsive">
+                    <img src="<?php echo base_url().$agent['profile']; ?>" alt="" class="img-responsive">
                 </div><!-- /.agent-detail-picture -->
             </div>
 
@@ -22,12 +22,45 @@
                 </p>
 
                 <ul class="social social-boxed">
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    <li><a href="#"><i class="fa fa-vimeo-square"></i></a></li>
-                    <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                <?php
+                if($agent['facebook_url']!='')
+                {
+                ?>
+                    <li><a href="<?php echo $agent['facebook_url'];?>"><i class="fa fa-facebook"></i></a></li>
+                <?php
+                }
+                if($agent['twitter_url']!='')
+                {
+                ?>
+
+                    <li><a href="<?php echo $agent['twitter_url'];?>"><i class="fa fa-twitter"></i></a></li>
+                <?php
+                }
+                if($agent['linked_in_url']!='')
+                {
+                ?>
+                    <li><a href="<?php echo $agent['linked_in_url'];?>"><i class="fa fa-linkedin"></i></a></li>
+                <?php
+                }
+                if($agent['google_plus_url']!='')
+                {
+                ?>
+                    <li><a href="<?php echo $agent['google_plus_url'];?>"><i class="fa fa-google-plus"></i></a></li>
+                <?php
+                }
+                if($agent['vimeo-square_url']!='')
+                {
+                ?>
+                    <li><a href="<?php echo $agent['vimeo-square_url'];?>"><i class="fa fa-vimeo-square"></i></a></li>
+                <?php
+                }
+                if($agent['you_tube_url']!='')
+                {
+                ?>
+                    <li><a href="<?php echo $agent['you_tube_url'];?>"><i class="fa fa-youtube"></i></a></li>
+                <?php
+                }
+                ?>
                 </ul><!-- /.social-->
             </div>
         </div><!-- /.row -->
@@ -53,8 +86,8 @@ foreach ($agent['properties'] as $row)
                                                                 else
                                                                 { echo $row['status']; }  ?></div><!-- /.property-box-price -->
                         <div class="property-box-picture-inner">
-                            <a href="#" class="property-box-picture-target">
-                                <img src="<?php echo base_url(); ?>assets/img/tmp/properties/medium/1.jpg" alt="">
+                            <a href="<?php echo base_url().$row['thumbnail']; ?>" class="property-box-picture-target">
+                                <img src="<?php echo base_url().$row['thumbnail']; ?>" alt="" height="250" width="200">
                             </a><!-- /.property-box-picture-target -->
                         </div><!-- /.property-picture-inner -->
                     </div><!-- /.property-picture -->
@@ -129,8 +162,8 @@ foreach ($properties as $row)
         <div class="property-small clearfix">
             <div class="property-small-picture col-sm-12 col-md-4">
                 <div class="property-small-picture-inner">
-                    <a href="#" class="property-small-picture-target">
-                        <img src="<?php echo base_url(); ?>assets/img/tmp/properties/medium/2.jpg" alt="">
+                    <a href="<?php echo base_url().$row['thumbnail']; ?>" class="property-small-picture-target">
+                        <img src="<?php echo base_url().$row['thumbnail']; ?>" alt="" height="70" width="100">
                     </a>
                 </div><!-- /.property-small-picture -->
             </div><!-- /.property-small-picture -->

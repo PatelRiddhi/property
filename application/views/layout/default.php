@@ -90,7 +90,7 @@ if($this->session->userdata('user') == '')
     if($this->session->userdata('user')['role'] == '1')
     {
 ?>
-                    <a href="<?php echo base_url('agents/add'); ?>" class="btn btn-regular">Create Agent Profile</a> <strong class="separator">or</strong> <a href="<?php echo base_url('properties/manage'); ?>" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
+                    <a href="<?php echo base_url('agents/manage'); ?>" class="btn btn-regular">Create Agent Profile</a> <strong class="separator">or</strong> <a href="<?php echo base_url('properties/manage'); ?>" class="btn btn-primary"><i class="fa fa-plus"></i>Submit Property</a>
 <?php
     }
 ?>
@@ -128,12 +128,11 @@ if($this->session->userdata('user') == '')
     {
 ?>
     <li>
-        <a <?php if($page=='agencies') echo 'class="active"';  ?> href="<?php echo base_url('agencies/').$this->session->userdata('user')['record_id']; ?>">Agencies</a>
+        <a <?php if($page=='agencies') echo 'class="active"';  ?> href="<?php echo base_url('agencies/').$this->session->userdata('user')['record_id']; ?>">Agency</a>
     </li>
 <?php
     }
-
-    if($this->session->userdata('user')['role'] == '0' || $this->session->userdata('user')['role'] || $this->session->userdata('role') == '2')
+    if($this->session->userdata('user')['role'] == '0')
     {
 ?>
     <li>
@@ -141,6 +140,15 @@ if($this->session->userdata('user') == '')
     </li>
 <?php
     }
+    if($this->session->userdata('user')['role'] == '1')
+    {
+?>
+    <li>
+        <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url(); ?>agents/">Agents</a>
+    </li>
+<?php
+    }
+?>
 ?>
 </ul><!-- /.header-nav -->
                     <div class="form-search-wrapper col-sm-3">

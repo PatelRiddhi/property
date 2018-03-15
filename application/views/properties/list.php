@@ -1,3 +1,8 @@
+<style type="text/css">
+    a{
+        color: black;
+    }
+</style>
 <div id="main-wrapper">
         <div id="main">
             <div id="main-inner">
@@ -26,9 +31,9 @@
                                         <td>
                                             <h4 class="property-box-title">
                                             <img src="<?php echo base_url();?><?php echo $row['thumbnail']; ?>" alt="" width="100">
-                                            <a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo $row['title']; ?></a></img></h4>
+                                            <a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo ucfirst($row['title']); ?></a></img></h4>
                                         </td>
-                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo ucfirst($row['status']); ?></td>
                                         <td>$<?php echo $row['prize'];if($row['status'] == 'rent'){echo "/month";} ?></td>
                                         <td>
                                             <a href="<?php echo base_url('properties/manage/').$row['id']; ?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i> Edit</a>

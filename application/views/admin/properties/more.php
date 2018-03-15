@@ -1,3 +1,12 @@
+ <style type="text/css">
+     h5{
+        text-transform: capitalize;
+     }
+     .h5{
+        text-transform: lowercase;
+     }
+   
+ </style>
  <div class="panel-group m-bot20" id="accordion">
                                         <div class="panel">
                                             <div class="panel-heading">
@@ -23,13 +32,13 @@
                                         <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Price :</label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['prize']; ?></h5>
+                                                <h5>$  <?php echo $property['prize']; ?></h5>
                                             </div>
                                         </div>
                                         <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Area :</label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['area']; ?></h5>
+                                                <h5 class="h5"><?php echo $property['area']; ?> m<sup>2</sup></h5>
                                             </div>
                                         </div>
                                         <div class="panel">
@@ -129,7 +138,7 @@
                                             foreach ($property['aminities'] as $value) 
                                             {
                                             	?>
-	                                               	<h5><?php echo "-".$value['name']; ?></h5>
+	                                               	<h5><span class="label label-default"><?php echo $value['name']; ?></span></h5>
                                             <?php	
                                             }
                                             ?>

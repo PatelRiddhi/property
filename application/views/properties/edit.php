@@ -137,14 +137,16 @@ $(document).ready(function(){
                                             <div class="form-group">
                                                 <label>Gallery</label>
                                                 <div id='galleries'>
+                                                    
                                                     <?php
                                                     foreach ($property['images'] as $value) 
                                                     {
                                                     ?>
-                                                    <img src="<?php echo base_url().$value; ?>" height="100" width=100></img>
+                                                    <img src="<?php echo base_url().$value; ?>" height="100" width="100"></img>
                                                     <?php
                                                     }
                                                     ?>
+                                                
                                                 </div>
                                                 <div id='imageloadstatus' style='display:none'><img src="<?php echo base_url();?>assets/img/loader.gif" alt="Uploading...."/></div>
                                                 <div id='imageloadbutton'>
@@ -173,7 +175,7 @@ $(document).ready(function(){
                                                         foreach ($countries as  $country) 
                                                         {
 ?>
-                                                        <option value="<?php echo $country['id']; ?>"><?php echo $country['name']; ?></option>
+                                                        <option value="<?php echo $country['name']; ?>"><?php echo $country['name']; ?></option>
 <?php    
                                                         }
 ?>
@@ -340,11 +342,11 @@ $(document).ready(function(){
 
     $(document).ready(function(){
         $("#select-country").change(function(){
-            var id=$("#select-country").val();
+            var name=$("#select-country").val();
             $.ajax({
                 url: '<?php echo base_url('home/get_state');?>',
                 type: 'POST',
-                data: {"id":id},
+                data: {"name":name},
                 success: function(data){
                     $("#state").html(data);
                 },
@@ -357,11 +359,11 @@ $(document).ready(function(){
 
     $(document).ready(function(){
         $("#state").change(function(){
-            var id=$("#state").val();
+            var name=$("#state").val();
             $.ajax({
                 url: '<?php echo base_url('home/get_city');?>',
                 type: 'POST',
-                data: {"id":id},
+                data: {"name":name},
                 success: function(data){
                     $("#city").html(data);
                 },
@@ -372,6 +374,13 @@ $(document).ready(function(){
         });
     });
 
+    $(".removeBtn").click(function(event){
+    var img =$(this).attr("data-id");
+    var id = $(this).attr('id');
+    var hiddenfield= '<input type="hidden" value="'+img+'" name="deletedImg[]" id=""/>';
+    $("#deleted-img").append(hiddenfield);
+    $(this).parent().parent().remove();
+    });  
     var loadFile = function(event) 
     {
         var preview = document.getElementById('preview');

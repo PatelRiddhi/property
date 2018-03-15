@@ -45,6 +45,7 @@
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>
+      <div id="page-wrapper">
 <?php
         if(!$content =='')
         {

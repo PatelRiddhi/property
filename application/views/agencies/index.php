@@ -16,14 +16,14 @@ foreach ($agencies as $row)
             <div class="agency-row clearfix">
                 <div class="agency-row-picture col-sm-6 col-md-5 col-lg-4">
                     <div class="agency-row-picture-inner">
-                        <a href="#" class="agency-row-picture-target">
-                            <img src="<?php echo base_url(); ?>assets/img/tmp/properties/medium/10.jpg" alt="">
+                        <a href="<?php echo base_url().$row['profile']; ?>" class="agency-row-picture-target">
+                            <img src="<?php echo base_url().$row['profile']; ?>" alt="">
                         </a><!-- /.agency-row-picture-target -->
                     </div><!-- /.agency-row-picture-inner -->
                 </div><!-- /.agency-row-picture  -->
 
                 <div class="agency-row-content col-sm-6 col-md-7 col-lg-8">
-                    <h3 class="agency-row-title"><a href="<?php echo base_url('agencies/').$row['id'];?>"><?php echo $row['title']; ?></a></h3>
+                    <h3 class="agency-row-title"><a href="<?php echo base_url('agencies/').$row['id'];?>"><?php echo ucfirst($row['title']); ?></a></h3>
                     <h4 class="agency-row-subtitle"><?php echo $row['properties']; ?></h4>
 
                     <ul class="list-unstyled">
@@ -103,8 +103,8 @@ foreach ($properties as $row)
         <div class="property-small clearfix">
             <div class="property-small-picture col-sm-12 col-md-4">
                 <div class="property-small-picture-inner">
-                    <a href="#" class="property-small-picture-target">
-                        <img src="<?php echo base_url(); ?>assets/img/tmp/properties/medium/11.jpg" alt="">
+                    <a href="<?php echo base_url().$row['thumbnail']; ?>" class="property-small-picture-target">
+                        <img src="<?php echo base_url().$row['thumbnail']; ?>" alt="" height="70" width="100">
                     </a>
                 </div><!-- /.property-small-picture -->
             </div><!-- /.property-small-picture -->

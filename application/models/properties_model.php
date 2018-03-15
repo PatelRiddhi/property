@@ -29,7 +29,7 @@
 
 	public function get_by_id($id)
 	{
-		return parent::get_by_id($id);	
+		return parent::get_by_id($id);
 	}
 
 	public function add_contact($data)
@@ -63,7 +63,7 @@
 		$q = $this->db->get($this->table_name)->row_array();
 		return $q;
 	}
-
+	
 	public function get_agents($id)
 	{
 		$this->db->where('pro_id', $id);
@@ -157,6 +157,7 @@
 	{
 		$this->table_name = 'property_image';
 		$this->db->where('pro_id', $id);
+		$this->db->where('is_delete', 0);
 		return  $this->db->get($this->table_name)->result_array();	
 	}
 

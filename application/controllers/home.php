@@ -16,6 +16,11 @@ class Home extends MY_Controller
 		$data['properties'] = $this->properties_model->get_data('',0,8);
 		$data['total'] = $this->properties_model->total_row_count();
 		$data['remaining_properties'] = $this->properties_model->get_data('',8,$data['total']-4);
+		foreach ($data['properties'] as $key=>$value) 
+		{
+			$type = $this->properties_model->type($value['pro_type_id']);
+			$data['properties'][$key]['pro_type']=$type['name'];
+		}
 		$data['content'] = $this->load->view('home/index', $data, TRUE);
 		$this->load->view('layout/default', $data);
 	}
@@ -26,18 +31,18 @@ class Home extends MY_Controller
 	 */
 	public function get_state()
 	{
-		// $this->db->where('name', $_POST['name']);
-		// $this->db->select('id');
-		// $id = return $this->db->get('countries';)
-		$this->db->where('country_id', $_POST['id']);
+		$this->db->where('name', $_POST['name']);
+		$this->db->select('id');
+		$id = $this->db->get('countries')->result_array();
+		$this->db->where('country_id', $id[0]['id']);
 		$states = $this->db->get('states')->result_array();
 		?>
-		<option value="-1">--Select State--</option>
+		<option value="-1">--Select States--</option>
 		<?php
 		foreach ($states as $state) 
 		{
 			?>
-			 <option value="<?php echo $state['id']; ?>"><?php echo $state['name']; ?></option>
+			 <option value="<?php echo $state['name']; ?>"><?php echo $state['name']; ?></option>
 			<?php	
 		}
 	}
@@ -48,10 +53,10 @@ class Home extends MY_Controller
 	 */
 	public function get_city()
 	{
-		// $this->db->where('name', $_POST['name']);
-		// $this->db->select('id');
-		// $id = return $this->db->get('states';)
-		$this->db->where('state_id', $_POST['id']);
+		$this->db->where('name', $_POST['name']);
+		$this->db->select('id');
+		$id = $this->db->get('states')->result_array();
+		$this->db->where('state_id', $id[0]['id']);
 		$cities = $this->db->get('cities')->result_array();
 		?>
 		<option value="-1">--Select City--</option>
@@ -59,7 +64,7 @@ class Home extends MY_Controller
 		foreach ($cities as $city) 
 		{
 			?>
-			 <option value="<?php echo $city['id']; ?>"><?php echo $city['name']; ?></option>
+			 <option value="<?php echo $city['name']; ?>"><?php echo $city['name']; ?></option>
 			<?php	
 		}
 	}

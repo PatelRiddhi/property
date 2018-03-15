@@ -38,10 +38,10 @@ class Agencies_model extends MY_Model
  	
 	public function count_properties($id)
 	{
-		$q = $this->db->query("SELECT COUNT(pro_id) 
-								 FROM properties
-								 JOIN project_agency ON 'properties.id' = 'project_agency.pro_id'
-								 WHERE agency_id= '1'");
+		$this->db->where('agency_id', $id);
+		$this->db->where('is_delete', 0);
+		$this->db->select('pro_id');
+		return $this->db->get('project_agency')->result_array();
 	}
 
 	public function get_properties($id)
