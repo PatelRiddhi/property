@@ -139,10 +139,10 @@ $(document).ready(function(){
                                                 <div id='galleries'>
                                                     
                                                     <?php
-                                                    foreach ($property['images'] as $value) 
+                                                    foreach ($property['images'] as $key=>$value) 
                                                     {
                                                     ?>
-                                                    <img src="<?php echo base_url().$value; ?>" height="100" width="100"></img>
+                                                    <img src="<?php echo base_url().$value; ?>" height="100" width="100" data-id="<?php echo $key; ?>" id="remove_image"></img>
                                                     <?php
                                                     }
                                                     ?>
@@ -372,20 +372,31 @@ $(document).ready(function(){
                 }
             });
         });
+
     });
 
-    $(".removeBtn").click(function(event){
-    var img =$(this).attr("data-id");
-    var id = $(this).attr('id');
-    var hiddenfield= '<input type="hidden" value="'+img+'" name="deletedImg[]" id=""/>';
-    $("#deleted-img").append(hiddenfield);
-    $(this).parent().parent().remove();
-    });  
-    var loadFile = function(event) 
-    {
-        var preview = document.getElementById('preview');
-        preview.src = URL.createObjectURL(event.target.files[0]);
-    };
+    $(document).ready(function(){
+        $('img[data-id]').each(function(index,ele){
+            $(ele).click(function(){
+               var id = $(this).attr('data-id');
+               if(confirm('Are you sure you want to delete these image?'))
+               {
+                    $.ajax({
+                    url: '<?php echo base_url('properties/delete_image');?>',
+                    type: 'POST',
+                    data: {"id":id},
+                    success: function(data){
+                        $('img[data-id=]'+id).remove();
+                    },
+                    error: function(errorThrown ){
+                        console.log( errorThrown );
+                    }
+                    });
+                }
+            });
+        });
+        });
+        
 
     
 </script>

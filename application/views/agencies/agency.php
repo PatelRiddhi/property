@@ -6,7 +6,7 @@
     <div class="block-content-inner">
     <div class="row">
     <div class="col-sm-9">
-    <h2><?php echo ucfirst($agency['title']); ?></h2>
+    <h2><?php echo ucfirst($agency['title']); ?> <?php if($this->session->userdata('user')['role']==1){ ?><a href="<?php echo base_url('agencies/manage/').$agency['id'];?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i>Edit</a><?php } ?></h2>
 
     <div class="agency-detail">
         <div class="row">

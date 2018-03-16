@@ -2,6 +2,13 @@
     .anchor{
         color: black;
     }
+    .topright {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+}
+
 </style>
 <div id="main-wrapper">
         <div id="main">
@@ -9,39 +16,31 @@
                 <div class="container">
                     <div class="block-content block-content-small-padding">
                         <div class="block-content-inner">
-                            <h2 class="center">My Agents</h2>
-
+                            <h2 class="center">Assign Property</h2>
+                            <!-- <div class="topright"> -->
+                            <!-- <a class ="btn btn-primary">Assign</a> </div> -->
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Sr. No.</th>
-                                        <th>Profile</th>
                                         <th>Properties</th>
-                                        <th>Email</th>
-                                        <th>Contact No.</th>
+                                        <th>Agents</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 <?php
 $i=0;
-foreach($agents as $agent)
+foreach($assign as $row)
 {
-    $i++;
 ?>
                                     <tr>
-                                        <td><?php echo $i; ?></td>
+                                        <td><?php echo ++$i; ?></td>
+                                        <td><?php echo $row['first_name']." ".$row['last_name']; ?></td>
+                                        <td><?php echo $row['title']; ?></td>
                                         <td>
-                                            <h4 class="property-box-title">
-                                            <img src="<?php echo base_url();?><?php echo $agent['profile']; ?>" alt="" width="100">
-                                            <a class="anchor" href="<?php echo base_url('agents/').$agent['id']; ?>"><?php echo ucfirst($agent['first_name'])." ".ucfirst($agent['last_name']); ?></a></img></h4>
-                                        </td>
-                                        <td><?php echo $agent['properties']; ?></td>
-                                        <td><a class="anchor" href="<?php echo $agent['email']; ?>" target="blank"><?php echo $agent['email']; ?></a></td>
-                                        <td><?php echo $agent['contact_no']; ?></td>
-                                        <td>
-                                            <a href="<?php echo base_url('agents/manage/').$agent['id'];?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i> Edit</a>
-                                            <a href="<?php echo base_url('agents/delete/').$agent['id'];?>" class="btn btn-primary btn-inversed btn-small" onclick="return confirm('Are you sure you want to delete these data?');"><i class="fa fa-ban"></i> Remove</a>
+                                            <a href="<?php echo base_url('agencies/manage/');?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i> Edit</a>
+                                            <a href="<?php echo base_url('agents/delete/');?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-ban"></i> Remove</a>
                                         </td>
                                     </tr>
 <?php

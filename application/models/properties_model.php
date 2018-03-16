@@ -165,6 +165,12 @@
 	{
 		return parent::update($id, $data, $table_name);
 	}
+
+	public function delete_img($id)
+	{
+		$this->db->where('id', $id);
+		return $this->db->delete('property_image');
+	}
  }
  
  /* End of file properties_model.php */

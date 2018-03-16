@@ -53,6 +53,7 @@ class Agents extends MY_Controller
 			$data['content'] = $this->load->view('agents/index', $data, TRUE);
 			$this->load->view('layout/default', $data);
 		}
+		$this->session->set_userdata('referred_from', current_url());
 	}
 
 	/**
@@ -137,7 +138,7 @@ class Agents extends MY_Controller
 								'agency_id' => $this->session->userdata('user')['record_id'],
 							    'agent_id' => $agent_id
 									);
-					if($agent_id = $this->agent_model->add_agency($agency))
+					if($this->agent_model->add_agency($agency))
 					{
 						$login = array(
 									'email' => $this->input->post('email'),
@@ -145,7 +146,7 @@ class Agents extends MY_Controller
 									'role' => 2,
 									'record_id' => $agent_id
 									);
-						if($this->register_model->add($login,'login'))
+						if($this->register_model->register($login,'login'))
 						{
 							redirect('agents/'.$agent_id,'refresh');
 						}
@@ -160,6 +161,7 @@ class Agents extends MY_Controller
 				$this->load->view('layout/default', $data);
 			}
 		}
+		//For edit agent profile...
 		else
 		{
 			if($this->input->post())
@@ -190,7 +192,6 @@ class Agents extends MY_Controller
 							'first_name' => $this->input->post('first_name'),
 						    'last_name' => $this->input->post('last_name'),
 						    'post' => $this->input->post('post'),
-						    'email' => $this->input->post('email'),
 						    'current_status' => $this->input->post('current_status'),
 						    'contact_no' => $this->input->post('contact_no'),
 						    'facebook_url' => $this->input->post('facebook_url'),
@@ -200,22 +201,45 @@ class Agents extends MY_Controller
 						    'vimeo-square_url' => $this->input->post('vimeo_square_url'),
 						    'you_tube_url' => $this->input->post('youtube_url'),
 						    'skype_id' => $this->input->post('skype_id'),
-						    'password' => md5($this->input->post('password')),
 						    'profile' => $path
 								);
-				redirect('agents/'.$id,'refresh');
+				if($this->agent_model->update($id, $agent, 'agents'))
+				{
+					redirect('agents/'.$id,'refresh');
+				}
 			}
 			else
 			{
 				$data['agent'] = $this->agent_model->get_by_id($id);
-				echo '<pre>';
-				print_r($data);
-				die;
 				$data['content'] = $this->load->view('agents/edit', $data, TRUE);
 				$this->load->view('layout/default', $data);
 			}
 		}
 		
+	}
+
+	public function cancel()
+	{
+		$referred_from = $this->session->userdata('referred_from');
+		redirect($referred_from,'refresh');
+	}
+
+	public function get_agency($id)
+	{
+		if($id = $this->agent_model->get_agency_id($id))
+		{
+			redirect('agencies/'.$id['agency_id'],'refresh');
+		}
+	}
+
+	public function delete($id)
+	{
+		$temp = $this->agent_model->get_properties($id);
+		$properties = array_column($temp, 'pro_id');
+		echo '<pre>';
+		print_r($properties);
+		die;
+		if($this->agent_model->delete($id));
 	}
  
 }

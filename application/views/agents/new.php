@@ -210,6 +210,7 @@ $(document).ready(function(){
                                 
                                 <div class="form-group center">
                                     <input type="submit" value="Submit" id="submit" class="btn btn-inversed btn-primary">
+                                     <a class="btn btn-inversed btn-primary" href="<?php echo base_url('agents/cancel');?>">Cancel</a>
                                 </div><!-- /.form-group -->
                             </form>
                         </div><!-- /.block-content-inner -->

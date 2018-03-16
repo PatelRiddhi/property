@@ -87,7 +87,7 @@ $(document).ready(function(){
                         <div class="block-content-inner">
                             <h2 class="center">Submit Property</h2>
 
-                            <form method="post" name="form" id="form" enctype="multipart/form-data" action="<?php echo base_url('agencies/property'); ?>">
+                            <form method="post" name="form" id="form" enctype="multipart/form-data" action="<?php echo base_url('properties/manage'); ?>">
                                 <div class="box">
                                     <div class="form-group">
                                         <label>Title</label>
@@ -163,7 +163,7 @@ $(document).ready(function(){
                                                         foreach ($countries as  $country) 
                                                         {
 ?>
-                                                        <option value="<?php echo $country['id']; ?>"><?php echo $country['name']; ?></option>
+                                                        <option value="<?php echo $country['name']; ?>"><?php echo $country['name']; ?></option>
 <?php    
                                                         }
 ?>
@@ -331,11 +331,11 @@ $(document).ready(function(){
 
     $(document).ready(function(){
         $("#select-country").change(function(){
-            var id=$("#select-country").val();
+            var name=$("#select-country").val();
             $.ajax({
                 url: '<?php echo base_url('home/get_state');?>',
                 type: 'POST',
-                data: {"id":id},
+                data: {"name":name},
                 success: function(data){
                     $("#state").html(data);
                 },
@@ -348,11 +348,11 @@ $(document).ready(function(){
 
     $(document).ready(function(){
         $("#state").change(function(){
-            var id=$("#state").val();
+            var name=$("#state").val();
             $.ajax({
                 url: '<?php echo base_url('home/get_city');?>',
                 type: 'POST',
-                data: {"id":id},
+                data: {"name":name},
                 success: function(data){
                     $("#city").html(data);
                 },

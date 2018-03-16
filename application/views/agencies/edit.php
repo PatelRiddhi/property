@@ -21,10 +21,6 @@ $(document).ready(function(){
             description: {
                 required: true
             },
-            email: {
-                required: true,
-                email: true
-            },
             website: {
                 required: true
             },
@@ -42,9 +38,6 @@ $(document).ready(function(){
                 required: true,
                 minlength: 5,
                 equalTo:"#password"
-            },
-            profile: {
-                required: true
             }
         },
     
@@ -54,10 +47,6 @@ $(document).ready(function(){
             },
             description: {
                 required: "Please Enter mobile number"
-            },
-            email: {
-                required: "Please Enter email",
-                email: "Please Enter valid email"
             },
             website: {
                 required: "Please Enter mobile number"
@@ -77,9 +66,6 @@ $(document).ready(function(){
                 minlength:"Please minimum 5 digits",
                 equalTo:"Password is not matches"
             },
-            profile: {
-                required: "Please Enter mobile number"
-            }
         },
         submitHandler: function(form) {
           form.submit();
@@ -93,18 +79,18 @@ $(document).ready(function(){
                 <div class="container">
                     <div class="block-content block-content-small-padding">
                         <div class="block-content-inner">
-                            <h2 class="center">Create Agency</h2>
+                            <h2 class="center">Edit Agency Profile</h2>
 
-                            <form method="post" id="form" action="<?php echo base_url('agencies/manage/');?>" enctype="multipart/form-data">
+                            <form method="post" id="form" action="<?php echo base_url('agencies/manage/').$agency['id']; ?>" enctype="multipart/form-data">
                                 <div class="box">
                                     <div class="form-group">
                                         <label>Title</label>
-                                        <input type="text" id="title" name="title" class="form-control">
+                                        <input type="text" id="title" name="title" value="<?php echo ucfirst($agency['title']); ?>" class="form-control">
                                     </div><!-- /.form-group -->
 
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <textarea class="form-control" id="description" name="description" rows="6"></textarea>
+                                        <textarea class="form-control" id="description" name="description" rows="6"><?php echo $agency['description']; ?></textarea>
                                         <script>
       CKEDITOR.plugins.addExternal( 'timestamp', 'https://sdk.ckeditor.com/samples/assets/plugins/timestamp/', 'plugin.js' );
       CKEDITOR.replace( 'description', {
@@ -121,22 +107,17 @@ $(document).ready(function(){
                                         <div class="box">
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <textarea class="form-control" id="address" name="address" rows="4"></textarea>
-                                            </div><!-- /.form-group -->
-
-                                            <div class="form-group">
-                                                <label>E-mail</label>
-                                                <input type="email" name="email" id="email" class="form-control">
+                                                <textarea class="form-control" id="address" name="address" rows="4"> <?php echo $agency['address']; ?></textarea>
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Website</label>
-                                                <input type="text" name="website" id="website" class="form-control">
+                                                <input type="text" name="website" id="website" value="<?php echo $agency['website']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Mobile No.</label>
-                                                <input type="text" name="mobile_no" id="mobile_no" class="form-control">
+                                                <input type="text" name="mobile_no" id="mobile_no" value="<?php echo $agency['mobile_no']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
                                         </div><!-- /.box -->
                                     </div>     
@@ -147,32 +128,32 @@ $(document).ready(function(){
                                         <div class="box">
                                             <div class="form-group">
                                                 <label>Facebook URL</label>
-                                                <input type="text" name="facebook_url" id="facebook_url" class="form-control">
+                                                <input type="text" name="facebook_url" id="facebook_url" value="<?php echo $agency['facebook_url']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Twitter URL</label>
-                                                <input type="text" name="twitter_url" id="twitter_url" class="form-control">
+                                                <input type="text" name="twitter_url" id="twitter_url" value="<?php echo $agency['twitter_url']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
 
                                            <div class="form-group">
                                                 <label>Linkedin URL</label>
-                                                <input type="text" name="linkedin_url" id="linkedin_url" class="form-control">
+                                                <input type="text" name="linkedin_url" id="linkedin_url" value="<?php echo $agency['linked_in_url']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Google+ URL</label>
-                                                <input type="text" name="google_plus_url" id="google_plus_url" class="form-control">
+                                                <input type="text" name="google_plus_url" id="google_plus_url" value="<?php echo $agency['google_plus_url']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Vimeo-Square URL</label>
-                                                <input type="text" name="vimeo_square_url" id="vimeo_square_url" class="form-control">
+                                                <input type="text" name="vimeo_square_url" id="vimeo_square_url" value="<?php echo $agency['vimeo-square_url']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>YouTube URL</label>
-                                                <input type="text" name="youtube_url" id="youtube_url" class="form-control">
+                                                <input type="text" name="youtube_url" id="youtube_url" value="<?php echo $agency['youtube_url']; ?>" class="form-control">
                                             </div><!-- /.form-group -->
                                         </div><!-- /.box -->
                                     </div>            
@@ -181,27 +162,23 @@ $(document).ready(function(){
                                         <h3>Social sites</h3>
 
                                         <div class="box">
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label>Password</label>
                                                 <input type="password" name="password" id="password" class="form-control">
                                             </div><!-- /.form-group -->
 
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label>Confirm Password</label>
                                                 <input type="password" name="confirm_password" id="confirm_password" class="form-control">
                                             </div><!-- /.form-group -->
-
-                                            <div class="form-group">
-                                               <div id='preview'></div>
-                                            </div><!-- /.form-group -->
-
-
-                                           <div class="form-group">
+                                     <div class="form-group">
                                                 <label>Profile</label>
                                                 <input type="file" name="profile" id="profile" onchange="loadFile(event)" class="form-control">
-                                                <img id="preview" height="100" width="100" />
+                                                <input type="hidden" name="old_profile" value="<?php echo $agency['profile']; ?>">
+                                                <img id="preview" src="<?php echo base_url().$agency['profile']; ?>" height="100" width="100" />
                                         
                                             </div><!-- /.form-group -->
+
 
                                         </div><!-- /.box -->
                                     </div>            

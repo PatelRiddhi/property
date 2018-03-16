@@ -6,7 +6,7 @@
     <div class="block-content-inner">
     <div class="row">
     <div class="col-sm-9">
-    <h2><?php echo $agent['first_name']." ".$agent['last_name']; ?></h2>
+    <h2><?php echo ucfirst($agent['first_name'])." ".ucfirst($agent['last_name']); ?>  <a href="<?php echo base_url('agents/manage/').$agent['id'];?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i>Edit</a></h2>
 
     <div class="agency-detail">
         <div class="row">
@@ -76,9 +76,9 @@ foreach ($agent['properties'] as $row)
         <div class="property-item property-featured col-sm-6 col-md-4">
             <div class="property-box">
                 <div class="property-box-inner">
-                    <h3 class="property-box-title"><a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo $row['title']; ?></a></h3>
-                    <h4 class="property-box-subtitle"><a href="#"><?php echo $row['state'].",".$row['country']; ?></a></h4>
-                    <div class="property-box-label property-box-label-primary"><?php echo $row['status']; ?></div><!-- /.property-box-label -->
+                    <h3 class="property-box-title"><a href="<?php echo base_url('properties/').$row['id']; ?>"><?php echo ucfirst($row['title']); ?></a></h3>
+                    <h4 class="property-box-subtitle"><a href="#"><?php echo ucfirst($row['state']).",".ucfirst($row['country']); ?></a></h4>
+                    <div class="property-box-label property-box-label-primary"><?php echo ucfirst($row['status']); ?></div><!-- /.property-box-label -->
 
                     <div class="property-box-picture">
                         <div class="property-box-price">$ <?php if($row['status'] =='rent')
@@ -169,7 +169,7 @@ foreach ($properties as $row)
             </div><!-- /.property-small-picture -->
 
             <div class="property-small-content col-sm-12 col-md-8">
-                <h3 class="property-small-title"><a href="<?php echo base_url('properties/').$row['id']; ?>" ><?php echo $row['title']; ?></a></h3><!-- /.property-small-title -->
+                <h3 class="property-small-title"><a href="<?php echo base_url('properties/').$row['id']; ?>" ><?php echo ucfirst($row['title']); ?></a></h3><!-- /.property-small-title -->
                 <div class="property-small-price">$ <?php echo $row['prize']; if($row['status']=='rent'){ echo '<span class="property-small-price-suffix">/per month</span>';} ?></div><!-- /.property-small-price -->
             </div><!-- /.property-small-content -->
         </div><!-- /.property-small -->

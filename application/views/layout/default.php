@@ -84,7 +84,7 @@ if($this->session->userdata('user') == '')
 {
 ?>
 
-                    <a href="<?php echo base_url('register/agency'); ?>" class="btn btn-regular">Create Agency Profile</a> 
+                    <a href="<?php echo base_url('agencies/manage'); ?>" class="btn btn-regular">Create Agency Profile</a> 
 <?php
 }
     if($this->session->userdata('user')['role'] == '1')
@@ -116,7 +116,7 @@ if($this->session->userdata('user') == '')
         <a   <?php if($page=='properties') echo 'class="active"';  ?> href="<?php echo base_url(); ?>properties/">Properties</a>
     </li>
 <?php
-    if($this->session->userdata('user')['role'] == '0' || $this->session->userdata('user')['role'] == '2')
+    if($this->session->userdata('user')['role'] == '0')
     {
 ?>
     <li>
@@ -132,11 +132,19 @@ if($this->session->userdata('user') == '')
     </li>
 <?php
     }
+    if($this->session->userdata('user')['role'] == '2')
+    {
+?>
+    <li>
+        <a <?php if($page=='agencies') echo 'class="active"';  ?> href="<?php echo base_url('agents/get_agency/').$this->session->userdata('user')['record_id']; ?>">Agency</a>
+    </li>
+<?php
+    }
     if($this->session->userdata('user')['role'] == '0')
     {
 ?>
     <li>
-        <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url(); ?>agents/">Agents</a>
+        <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url('agents/'); ?>">Agents</a>
     </li>
 <?php
     }
@@ -144,11 +152,21 @@ if($this->session->userdata('user') == '')
     {
 ?>
     <li>
-        <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url(); ?>agents/">Agents</a>
+        <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url('agents/'); ?>">Agents</a>
+    </li>
+    <li>
+        <a <?php if($page=='assign property') echo 'class="active"';  ?> href="<?php echo base_url('agencies/assign_property'); ?>">Assign Property</a>
     </li>
 <?php
     }
+    if($this->session->userdata('user')['role'] == '2')
+    {
 ?>
+    <li>
+        <a <?php if($page=='agents') echo 'class="active"';  ?> href="<?php echo base_url('agents/').$this->session->userdata('user')['record_id']; ?>">Profile</a>
+    </li>
+<?php
+    }
 ?>
 </ul><!-- /.header-nav -->
                     <div class="form-search-wrapper col-sm-3">

@@ -127,6 +127,17 @@ class Agencies_model extends MY_Model
 		$q = $this->db->get('login')->row_array();
 		return $q;
 	}
+
+	public function get_assign_data($id)
+	{
+		$this->db->select('properties.title,agents.first_name, agents.last_name');
+		$this->db->where('property_agent.agency_id', $id);
+		$this->db->from('property_agent');
+		$this->db->join('agents', 'agents.id = property_agent.agent_id');
+		$this->db->join('properties', 'properties.id = property_agent.pro_id');
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
 }
 
 /* End of file agencies_model.php */

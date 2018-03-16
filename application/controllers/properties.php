@@ -33,6 +33,22 @@ class Properties extends MY_Controller
 			$data['content'] = $this->load->view('properties/list',$data , TRUE);
 
 		}
+		elseif($this->session->userdata('user')['role'] == '2')
+		{
+			$properties = $this->agent_model->get_properties($this->session->userdata('user')['record_id']);
+			$data['properties'] = array();
+			foreach ($properties as $key =>$value) 
+			{
+				$property = $this->properties_model->get_by_id($value['pro_id']);
+				array_push($data['properties'], $property);
+			}
+			$config["total_rows"] = count($data['properties']);
+			$config["per_page"] = 8;
+			$this->pagination->initialize($config);
+			$data['links'] = $this->pagination->create_links();
+			$data['content'] = $this->load->view('properties/list',$data , TRUE);
+
+		}
 		else 
 		{
 			$data['properties'] = $this->properties_model->get_data('',$start, 8);
@@ -102,24 +118,24 @@ class Properties extends MY_Controller
 	 */
 	public function manage($id='')
 	{
-		//For add property///
+		//For edit property///
 		if($id !='')
 		{
 			if($this->input->post())
 			{
+				$config['upload_path'] = './uploads/properties';
+				$config['upload_url'] = base_url().'upload';
+				$config['allowed_types'] = 'gif|jpg|png';
+				$config['max_size']  = '10000';
+				$config['max_width']  = '102040';
+				$config['max_height']  = '76800';
+				$this->upload->initialize($config);
 				if(empty($_FILES['profile']['name'][0]))
 				{
 					$path = $this->input->post('old_profile');
 				}
 				else
 				{
-					$config['upload_path'] = './uploads/properties';
-					$config['upload_url'] = base_url().'upload';
-					$config['allowed_types'] = 'gif|jpg|png';
-					$config['max_size']  = '10000';
-					$config['max_width']  = '102040';
-					$config['max_height']  = '76800';
-					$this->upload->initialize($config);
 					if($data = $this->upload->do_multi_upload("profile")) 
 					{
 						$path = 'uploads/properties/'.$this->upload->data()['file_name'];
@@ -128,7 +144,25 @@ class Properties extends MY_Controller
 					{
 						print_r($this->upload->display_errors());
 					}
+						
 				}
+				if($data = $this->upload->do_multi_upload("photoimg")) 
+				{
+					$gallery = array_column($this->upload->get_multi_upload_data(), 'file_name');
+				}
+				else
+				{
+					print_r($this->upload->display_errors());
+				}
+				$arr=array();
+				foreach ($gallery as $path) 
+				{
+					array_push($arr,array('pro_id'=>$id,'path'=>'uploads/properties/'.$path));	
+				}
+				if($this->properties_model->add($arr,'image'))
+				{
+					redirect(base_url('properties/'.$id));
+				}		
 				$property = array(
 						    'title' => $this->input->post('title'),
 						    'description' => $this->input->post('description'),
@@ -182,7 +216,6 @@ class Properties extends MY_Controller
 						}
 					}
 				}
-				redirect(base_url('properties/'.$id));
 			}
 			else
 			{
@@ -195,7 +228,7 @@ class Properties extends MY_Controller
 					array_push($data['property']['aminities'], $value['amen_id']);
 				}
 				$images = $this->properties_model->get_images($id);
-				$data['property']['images'] = array_column($images, 'path');
+				$data['property']['images'] = array_column($images, 'path','id');
 				$data['type'] = $this->properties_model->get_type();
 				$data['aminities'] = $this->aminities_model->get_all();
 				$data['countries'] = $this->properties_model->get_countries();
@@ -203,9 +236,10 @@ class Properties extends MY_Controller
 				$this->load->view('layout/default', $data);
 			}
 		}//End of if loop
-		//For edit property...
 		else
 		{
+			//For ADD property...
+
 			if($this->input->post())
 			{
 				$config['upload_path'] = './uploads/properties';
@@ -218,6 +252,8 @@ class Properties extends MY_Controller
 				if($data = $this->upload->do_multi_upload("photoimg")) 
 				{
 					$gallery = array_column($this->upload->get_multi_upload_data(), 'file_name');
+					echo '<pre>';
+					print_r($gallery);
 				}
 				else
 				{
@@ -298,8 +334,15 @@ class Properties extends MY_Controller
 		if($this->properties_model->delete($id))
 		{
 			redirect('properties');
+		}	
+	}
+
+	public function delete_image()
+	{
+		if($this->properties_model->delete_img($_POST['id']))
+		{
+			echo "yes";
 		}
-		
 	}
 }
 

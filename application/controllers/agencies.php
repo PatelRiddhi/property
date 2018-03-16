@@ -34,6 +34,7 @@ class Agencies extends MY_Controller
 		$data['properties'] = $this->properties_model->get_data('',$start, 3);
 		$data['content'] = $this->load->view('agencies/index', $data, TRUE);
 		$this->load->view('layout/default', $data);
+		$this->session->set_userdata('referred_from',current_url());
 	}
 
 	/**
@@ -82,6 +83,134 @@ class Agencies extends MY_Controller
 			$this->load->view('layout/default', $data);
 			$this->session->set_userdata('referred_from', current_url());
 		}
+	}
+
+	public function assign_property()
+	{
+		$id = $this->session->userdata('user')['record_id'];
+		$data['assign'] = $this->agencies_model->get_assign_data($id);
+		$data['content'] = $this->load->view('agencies/assign_property', $data, TRUE);
+		$this->load->view('layout/default', $data);
+	}
+
+	public function manage($id='')
+	{
+		//For add agency..
+		if($id=='')
+		{
+			if($this->input->post())
+			{
+				$config['upload_path'] = './uploads/agencies';
+				$config['upload_url'] = base_url().'upload';
+				$config['allowed_types'] = 'gif|jpg|png';
+				$config['max_size']  = '10000';
+				$config['max_width']  = '102040';
+				$config['max_height']  = '76800';
+				$this->upload->initialize($config);
+				if($data = $this->upload->do_multi_upload("profile")) 
+				{
+					$path = 'uploads/agencies/'.$this->upload->data()['file_name'];
+				}
+				else
+				{
+					print_r($this->upload->display_errors());
+				}
+				$agency = array(
+						    'title' => $this->input->post('title'),
+						    'description' => $this->input->post('description'),
+						    'address' => $this->input->post('address'),
+						    'email' => $this->input->post('email'),
+						    'website' => $this->input->post('website'),
+						    'mobile_no' => $this->input->post('mobile_no'),
+						    'facebook_url' => $this->input->post('facebook_url'),
+						    'twitter_url' => $this->input->post('twitter_url'),
+						    'linked_in_url' => $this->input->post('linkedin_url'),
+						    'google_plus_url'=> $this->input->post('google_plus_url'),
+						    'vimeo-square_url' => $this->input->post('vimeo_square_url'),
+						    'youtube_url' => $this->input->post('youtube_url'),
+						    'password' => md5($this->input->post('password')),
+						    'profile' => $path
+							);
+				if($agency_id = $this->register_model->register($agency, 'agencies'))
+				{
+					$login = array(
+							'email' => $this->input->post('email'),
+							'password' => md5($this->input->post('password')),
+							'role' => 1,
+							'record_id'=>$agency_id
+							);
+					if($this->register_model->register($login,'login'))
+					{
+						redirect('login','refresh');
+					}
+				}
+			}
+			else
+			{
+				$data['content'] = $this->load->view('agencies/new', '', TRUE);
+				$this->load->view('layout/default', $data);
+			}
+		}
+		//For edit agency..
+		else
+		{
+			if($this->input->post())
+			{
+				if(empty($_FILES['profile']['name']))
+				{
+					$path = $this->input->post('old_profile');
+				}
+				else
+				{
+					$config['upload_path'] = './uploads/agencies';
+					$config['upload_url'] = base_url().'upload';
+					$config['allowed_types'] = 'gif|jpg|png';
+					$config['max_size']  = '10000';
+					$config['max_width']  = '102040';
+					$config['max_height']  = '76800';
+					$this->upload->initialize($config);
+					if($data = $this->upload->do_multi_upload("profile")) 
+					{
+						$path = 'uploads/agencies/'.$this->upload->data()['file_name'];
+					}
+					else
+					{
+						print_r($this->upload->display_errors());
+					}
+				}
+				$agency = array(
+						    'title' => $this->input->post('title'),
+						    'description' => $this->input->post('description'),
+						    'address' => $this->input->post('address'),
+						    'website' => $this->input->post('website'),
+						    'mobile_no' => $this->input->post('mobile_no'),
+						    'facebook_url' => $this->input->post('facebook_url'),
+						    'twitter_url' => $this->input->post('twitter_url'),
+						    'linked_in_url' => $this->input->post('linkedin_url'),
+						    'google_plus_url'=> $this->input->post('google_plus_url'),
+						    'vimeo-square_url' => $this->input->post('vimeo_square_url'),
+						    'youtube_url' => $this->input->post('youtube_url'),
+						    'password' => md5($this->input->post('password')),
+						    'profile' => $path
+							);
+				if($this->agencies_model->update($id, $agency, 'agencies'))
+				{
+					redirect('agencies/'.$id,'refresh');
+				}
+			}
+			else
+			{
+				$data['agency'] = $this->agencies_model->get_by_id($id);
+				$data['content'] = $this->load->view('agencies/edit', $data, TRUE);
+				$this->load->view('layout/default', $data);
+			}
+		}	
+	}
+
+	public function cancel()
+	{
+		$referred_from = $this->session->userdata('referred_from');
+		redirect($referred_from,'refresh');
 	}
  
  }

@@ -41,6 +41,18 @@ class Agent_Model extends MY_Model
 		$this->table_name = 'agency_agents';
 		return parent::add($data);
 	}
+
+	public function update($id, $data, $table_name)
+	{
+		return parent::update($id, $data, $table_name);
+	}
+
+	public function get_agency_id($id)
+	{
+		$this->db->where('agent_id', $id);
+		$this->db->select('agency_id');
+		return $this->db->get('agency_agents')->row_array();
+	}
 }
 
 /* End of file agent.php */

@@ -5,12 +5,12 @@ class Register_model extends MY_Model
 {
 	public function __construct()
 	{
+		$this->table_name='login';
 		parent::__construct();
 	}
 	
 	public function register($data,$table_name)
 	{
-		$this->table_name =$table_name;
 		return parent::add($data);
 	}
 }

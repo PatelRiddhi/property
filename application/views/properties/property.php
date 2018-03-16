@@ -51,7 +51,7 @@ foreach($property['images'] as $image)
 {
 ?>
                                         <li data-thumb="<?php echo base_url().$image; ?>">
-                                            <img src="<?php echo base_url().$image; ?>" alt="">
+                                            <img src="<?php echo base_url().$image; ?>" alt="" height="400" width="100">
                                         </li>
 <?php
 }
