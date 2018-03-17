@@ -57,13 +57,13 @@
                                             <select class="form-control">
                                                 <option value="-1">--Select Type--</option>
 <!-- <?php
-    foreach($type as $value)
+    foreach($temp as $value)
     {
-?> -->
-                                                <!-- <option value="<?php //echo $value['id']; ?>"><?php //echo $value['name']; ?></option> -->
-<!-- <?php
+?> --> 
+                                                 <!-- <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>  -->
+ <!-- <?php
     }
-?> -->
+?>  -->
                                             </select>
                                         </div><!-- /.select-wrapper -->
                                     </div><!-- /.form-group -->

@@ -46,6 +46,7 @@ class Agencies_model extends MY_Model
 
 	public function get_properties($id)
 	{
+		$this->db->where('is_delete', 0);
 		$this->db->where('agency_id',$id);
 		return $this->db->get('project_agency')->result_array();
 	}

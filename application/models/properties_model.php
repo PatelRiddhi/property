@@ -17,7 +17,7 @@
  
  	public function get_data($where='', $limit='',$offset='')
  	{
-
+ 		//$this->table_name='properties';
  		$data = parent::get_data($where,$limit,$offset);
  		return $data;
  	}
@@ -96,55 +96,49 @@
 		$update_data = array(
 					'is_delete' =>1);
 
-		//to get agency assigned to this property
-		$agencies = $this->get_agencies($id);
-		$agency_ids = array_column($agencies, 'agency_id');
-
 		//to get array of agents to this property 
 		$agents = $this->get_agents($id);
 		$agents_ids = array_column($agents, 'agent_id');
-
+		if(count($agents_ids)!=0)
+		{
+			$this->db->where_in('agent_id', $agents_ids);
+			$this->db->update('property_agent', $update_data);
+		}
 		//to get contact of perticular property
 		$contacts = $this->get_contact($id);
 		$contact_ids = array_column($contacts, 'id');
-
+		if(count($contact_ids)!=0)
+		{
+			$this->db->where_in('id', $contact_ids);
+			$this->db->update('property_contact', $update_data);
+		}
 		//to get images of perticular property
 		$images = $this->get_images($id);
 		$images_ids = array_column($images, 'id');
-
+		if(count($images_ids)!=0)
+		{
+			$this->db->where_in('id', $images_ids);
+			$this->db->update('property_image', $update_data);
+		}
 		//to get amenities of perticular property
 		$amenities = $this->get_amenities($id);
 		$amenities_ids = array_column($amenities, 'id');
+		if(count($images_ids)!=0)
+		{
+			$this->db->where_in('id', $amenities_ids);
+			$this->db->update('property_amenities', $update_data);
+		}
 
 		//delete agents..
-		$this->db->where_in('agent_id', $agents_ids);
-		if($this->db->update('property_agent', $update_data))
+		
+		$this->db->where_in('agency_id', $this->session->userdata('user')['record_id']);
+		$this->db->update('project_agency', $update_data);
+				
+		$this->db->where('id', $id);
+		if($this->db->update('properties', $update_data))
 		{
-			$this->db->where_in('agency_id', $agency_ids);
-			if($this->db->update('project_agency', $update_data))
-			{
-				$this->db->where_in('id', $contact_ids);
-				if($this->db->update('property_contact', $update_data))
-				{
-					$this->db->where_in('id', $images_ids);
-					if($this->db->update('property_image', $update_data))
-					{
-						$this->db->where_in('id', $amenities_ids);
-						if($this->db->update('property_amenities', $update_data))
-						{
-							$this->db->where('id', $id);
-							if($this->db->update('properties', $update_data))
-							{
-								echo "yes";
-								die;
-								return TRUE;
-							}
-							
-						} 
-					} 
-				} 
-			} 
-		} 
+			return TRUE;
+		}
 	}
 
 	public function search($data)
@@ -170,6 +164,20 @@
 	{
 		$this->db->where('id', $id);
 		return $this->db->delete('property_image');
+	}
+
+	public function get_agency($id)
+	{
+		$this->db->where('pro_id', $id);
+		$this->db->where('is_delete', 0);
+		return $this->db->get('project_agency')->result_array();
+	}
+
+	public function edit_agency($data, $old_data, $table_name)
+	{
+		$this->db->where('agency_id', $old_data);
+		$this->db->where('pro_id', $data['pro_id']);
+		return $this->db->update($table_name, $data);
 	}
  }
  

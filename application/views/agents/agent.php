@@ -6,7 +6,7 @@
     <div class="block-content-inner">
     <div class="row">
     <div class="col-sm-9">
-    <h2><?php echo ucfirst($agent['first_name'])." ".ucfirst($agent['last_name']); ?>  <a href="<?php echo base_url('agents/manage/').$agent['id'];?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i>Edit</a></h2>
+    <h2><?php echo ucfirst($agent['first_name'])." ".ucfirst($agent['last_name']); ?>  <?php if(($this->session->userdata('user')['role']==1) || ($this->session->userdata('user')['role']==2)){?><a href="<?php echo base_url('agents/manage/').$agent['id'];?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i>Edit</a><?php }?></h2>
 
     <div class="agency-detail">
         <div class="row">

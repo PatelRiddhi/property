@@ -33,8 +33,7 @@ class Register extends MY_Controller
 				if($this->register_model->register($register,'login'))
 				{
 					redirect('login', 'refresh');
-				}
-				
+				}	
 			}
 		}
 		$data['content'] = $this->load->view('register/index','', TRUE);

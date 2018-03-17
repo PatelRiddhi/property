@@ -81,7 +81,7 @@ $(document).ready(function(){
                         <div class="block-content-inner">
                             <h2 class="center">Update Property</h2>
 
-                            <form method="post" name="form" id="form" enctype="multipart/form-data" action="<?php echo base_url('properties/manage/').$property['id']; ?>">
+                            <form method="post" name="form" id="form" enctype="multipart/form-data" action="<?php echo base_url('admin/properties/edit/').$property['id']; ?>">
                                 <div class="box">
                                     <div class="form-group">
                                         <label>Title</label>
@@ -99,6 +99,31 @@ $(document).ready(function(){
     </script>
                                     </div><!-- /.form-group -->
                                 </div><!-- /.box -->
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="box">
+                                            <div class="form-group">
+                                                <label>Agencies</label>
+                                                <div class="select-wrapper">
+                                                    <input type="hidden" name="old_agency_id" value="<?php echo $property['agency']; ?>" >
+                                                   <select id="Agencies" name="agencies" class="form-control" required>
+                                                        <option value="-1">--Select Agency--</option>
+<?php
+                                                        foreach ($agencies as  $agency) 
+                                                        {
+?>
+                                                        <option value="<?php echo $agency['id']; ?>" <?php if($property['agency']==$agency['id']){echo "selected";}?>><?php echo $agency['title']; ?></option>
+<?php    
+                                                        }
+?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <h3>Amenities</h3>
 
                                 <div class="box clearfix">

@@ -25,6 +25,9 @@ $(document).ready(function(){
             address: {
                 required: true
             },
+            profile: {
+                required: true
+            },
             prize: {
                 required: true,
                 digits:true
@@ -54,6 +57,9 @@ $(document).ready(function(){
             address: {
                 required: "Please Enter Address"
             },
+            profile: {
+                required: "Please Choose Profile"
+            },
             prize: {
                 required: "Please Enter Price"
             },
@@ -79,18 +85,18 @@ $(document).ready(function(){
                 <div class="container">
                     <div class="block-content block-content-small-padding">
                         <div class="block-content-inner">
-                            <h2 class="center">Update Property</h2>
+                            <h2 class="center">Submit Property</h2>
 
-                            <form method="post" name="form" id="form" enctype="multipart/form-data" action="<?php echo base_url('properties/manage/').$property['id']; ?>">
+                            <form method="post" name="form" id="form" enctype="multipart/form-data" action="<?php echo base_url('admin/properties/add'); ?>">
                                 <div class="box">
                                     <div class="form-group">
                                         <label>Title</label>
-                                        <input type="text" name="title" id="title" value="<?php echo $property['title']; ?>"class="form-control">
+                                        <input type="text" name="title" id="title" class="form-control">
                                     </div><!-- /.form-group -->
 
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <textarea class="form-control" id="description" name="description" value="<?php echo $property['description']; ?>" rows="4"><?php echo $property['description']; ?></textarea>
+                                        <textarea class="form-control" id="description" name="description" rows="4"></textarea>
 <script>
       CKEDITOR.plugins.addExternal( 'timestamp', 'https://sdk.ckeditor.com/samples/assets/plugins/timestamp/', 'plugin.js' );
       CKEDITOR.replace( 'description', {
@@ -99,15 +105,39 @@ $(document).ready(function(){
     </script>
                                     </div><!-- /.form-group -->
                                 </div><!-- /.box -->
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="box">
+                                            <div class="form-group">
+                                                <label>Agencies</label>
+                                                <div class="select-wrapper">
+                                                   <select id="Agencies" name="agencies" class="form-control" required>
+                                                        <option value="-1">--Select Agency--</option>
+<?php
+                                                        foreach ($agencies as  $agency) 
+                                                        {
+?>
+                                                        <option value="<?php echo $agency['id']; ?>"><?php echo $agency['title']; ?></option>
+<?php    
+                                                        }
+?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <h3>Amenities</h3>
 
                                 <div class="box clearfix">
+
                                     <ul class="submit-property-list list-unstyled">
 <?php
+
     foreach ($aminities as $row) 
     {
 ?>
-                                        <li class="checkbox col-sm-3"><label><input type="checkbox" name="aminities[]" value="<?php echo $row['id'];?>" <?php if(in_array($row['id'], $property['aminities'])){ echo "checked"; } ?> ><?php echo $row['name']; ?></label></li>
+                                        <li class="checkbox col-sm-2"><label><input type="checkbox" name="aminities[]" value="<?php echo $row['id'];?>"><?php echo $row['name']; ?></label></li>
 <?php
     }
 ?>
@@ -121,8 +151,7 @@ $(document).ready(function(){
                                                 <label>Profile</label>                        
                                                     
                                                     <input type="file" name="profile[]" id="profile" onchange="loadFile(event)" class="form-control">
-                                                    <input type="hidden" name="old_profile" value="<?php echo $property['thumbnail']; ?>">
-                                                    <img id="preview" src="<?php echo base_url().$property['thumbnail']; ?>" height="100" width="100" />
+                                                    <img id="preview" height="100" width="100" />
                                             </div><!-- /.form-group -->
                                         </div>
                                     </div>
@@ -130,18 +159,7 @@ $(document).ready(function(){
                                         <div class="box">
                                             <div class="form-group">
                                                 <label>Gallery</label>
-                                                <div id='galleries'>
-                                                    
-                                                    <?php
-                                                    foreach ($property['images'] as $key=>$value) 
-                                                    {
-                                                    ?>
-                                                    <img src="<?php echo base_url().$value; ?>" height="100" width="100" data-id="<?php echo $key; ?>" id="remove_image"></img>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                
-                                                </div>
+                                                <div id='galleries'></div>
                                                 <div id='imageloadstatus' style='display:none'><img src="<?php echo base_url();?>assets/img/loader.gif" alt="Uploading...."/></div>
                                                 <div id='imageloadbutton'>
                                                 <input type="file" name="photoimg[]" id="photoimg" multiple="multiple"/>
@@ -157,7 +175,7 @@ $(document).ready(function(){
                                         <div class="box">
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <textarea class="form-control" id="address" value="" name="address" rows="3"><?php echo $property['address']; ?></textarea>
+                                                <textarea class="form-control" id="address" name="address"rows="3"></textarea>
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
@@ -169,7 +187,7 @@ $(document).ready(function(){
                                                         foreach ($countries as  $country) 
                                                         {
 ?>
-                                                        <option value="<?php echo $country['name']; ?>" <?php if($country['name']== $property['country']){echo "selected";}?>><?php echo ucfirst($country['name']); ?></option>
+                                                        <option value="<?php echo $country['name']; ?>"><?php echo $country['name']; ?></option>
 <?php    
                                                         }
 ?>
@@ -180,8 +198,7 @@ $(document).ready(function(){
                                             <div class="form-group">
                                                 <label>State</label>
                                                 <div class="select-wrapper">
-                                                    <select id="state" name="state" class="form-control" required>  
-                                                    <option value="<?php echo $property['state']; ?>" selected><?php echo ucfirst($property['state']); ?></option>     
+                                                    <select id="state" name="state" class="form-control" required>       
                                                     </select>
                                                 </div><!-- /.select-wrapper -->
                                             </div>
@@ -190,7 +207,6 @@ $(document).ready(function(){
                                                 <label>City</label>
                                                  <div class="select-wrapper">
                                                     <select id="city" name="city" class="form-control" required>
-                                                        <option value="<?php echo $property['city']; ?>" selected><?php echo ucfirst($property['city']); ?></option>     
                                                     </select>
                                                 </div><!-- /.select-wrapper -->
                                             </div>
@@ -204,7 +220,7 @@ $(document).ready(function(){
     foreach($type as $row)
     {
 ?>
-                                                        <option value="<?php echo $row['id']; ?>" <?php if($row['id']==$property['pro_type_id']){ echo "selected"; } ?>><?php echo $row['name']; ?></option>
+                                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
 <?php
     }
 ?>
@@ -216,8 +232,9 @@ $(document).ready(function(){
                                                 <label>Status</label>
                                                  <div class="select-wrapper">
                                                     <select id="status" name="status" class="form-control" required>
-                                                        <option value="sale" <?php if($property['status'] == 'sale'){ echo "selected"; }?>>Sale</option>
-                                                        <option value="rent" <?php if($property['status'] == 'rent'){ echo "selected"; }?>>Rent</option>
+                                                        <option value="-1">--Select Status--</option>
+                                                        <option value="sale">Sale</option>
+                                                        <option value="rent">Rent</option>
                                                     </select>
                                                 </div><!-- /.select-wrapper -->
                                             </div>
@@ -230,27 +247,27 @@ $(document).ready(function(){
                                         <div class="box">
                                             <div class="form-group">
                                                 <label>Facebook URL*</label>
-                                                <input type="text" name="facebook_url" id="facebook_url" value="<?php echo $property['facebook_url']; ?>" class="form-control">
+                                                <input type="text" name="facebook_url" id="facebook_url" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Twitter URL*</label>
-                                                <input type="text" name="twitter_url" id="twitter_url" value="<?php echo $property['twitter_url']; ?>" class="form-control">
+                                                <input type="text" name="twitter_url" id="twitter_url" class="form-control">
                                             </div><!-- /.form-group -->
 
                                            <div class="form-group">
                                                 <label>Linkedin URL*</label>
-                                                <input type="text" name="linkedin_url" id="linkedin_url" value="<?php echo $property['linked_in_url']; ?>" class="form-control">
+                                                <input type="text" name="linkedin_url" id="linkedin_url" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Vimeo-Square URL*</label>
-                                                <input type="text" name="vimeo_square_url" id="vimeo_square_url" value="<?php echo $property['vimeo-square_url']; ?>" class="form-control">
+                                                <input type="text" name="vimeo_square_url" id="vimeo_square_url" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>YouTube URL*</label>
-                                                <input type="text" name="youtube_url" id="youtube_url" value="<?php echo $property['you_tube_url']; ?>" class="form-control">
+                                                <input type="text" name="youtube_url" id="youtube_url" class="form-control">
                                             </div><!-- /.form-group -->
 
                                         </div><!-- /.box -->
@@ -262,27 +279,27 @@ $(document).ready(function(){
                                         <div class="box">
                                             <div class="form-group">
                                                 <label>Beds*</label>
-                                                <input type="number" name="beds" id="beds" value="<?php echo $property['beds']; ?>" class="form-control">
+                                                <input type="number" name="beds" id="beds" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Bath*</label>
-                                                <input type="number" name="bath" id="bath" value="<?php echo $property['bath']; ?>" class="form-control">
+                                                <input type="number" name="bath" id="bath" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Garages*</label>
-                                                <input type="number" name="garages" id="garages" value="<?php echo $property['garages']; ?>" class="form-control">
+                                                <input type="number" name="garages" id="garages" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Area</label>
-                                                <input type="text" name="area" id="area" value="<?php echo $property['area']; ?>" class="form-control">
+                                                <input type="text" name="area" id="area" class="form-control">
                                             </div><!-- /.form-group -->
 
                                             <div class="form-group">
                                                 <label>Price</label>
-                                                <input type="text" name="prize" id="prize" value="<?php echo $property['prize']; ?>" class="form-control">
+                                                <input type="text" name="prize" id="prize" class="form-control">
                                             </div><!-- /.form-group -->
 
                                         </div><!-- /.box -->
@@ -290,7 +307,7 @@ $(document).ready(function(){
                                 </div><!-- /.row -->
                                 
                                 <div class="form-group center">
-                                    <input type="submit" value="Update" id="submit" class="btn btn-inversed btn-primary">
+                                    <input type="submit" value="Submit" id="submit" class="btn btn-inversed btn-primary">
                                     <a class="btn btn-inversed btn-primary" href="<?php echo base_url('properties/cancel');?>">Cancel</a>
                                 </div><!-- /.form-group -->
                             </form>
@@ -369,31 +386,13 @@ $(document).ready(function(){
                 }
             });
         });
-
     });
 
-    $(document).ready(function(){
-        $('img[data-id]').each(function(index,ele){
-            $(ele).click(function(){
-               var id = $(this).attr('data-id');
-               if(confirm('Are you sure you want to delete these image?'))
-               {
-                    $.ajax({
-                    url: '<?php echo base_url('properties/delete_image');?>',
-                    type: 'POST',
-                    data: {"id":id},
-                    success: function(data){
-                        $('img[data-id=]'+id).remove();
-                    },
-                    error: function(errorThrown ){
-                        console.log( errorThrown );
-                    }
-                    });
-                }
-            });
-        });
-        });
-        
+    var loadFile = function(event) 
+    {
+        var preview = document.getElementById('preview');
+        preview.src = URL.createObjectURL(event.target.files[0]);
+    };
 
     
 </script>

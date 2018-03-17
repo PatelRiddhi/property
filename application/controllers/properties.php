@@ -60,6 +60,7 @@ class Properties extends MY_Controller
 			$data['content'] = $this->load->view('properties/index', $data, TRUE);
 		}
 		$this->load->view('layout/default', $data);
+		$this->session->set_userdata('referred_from', current_url());
 	}
 
 	/**
@@ -146,23 +147,23 @@ class Properties extends MY_Controller
 					}
 						
 				}
-				if($data = $this->upload->do_multi_upload("photoimg")) 
+				if(!empty($_FILES['photoimg']['name'][0]))
 				{
-					$gallery = array_column($this->upload->get_multi_upload_data(), 'file_name');
+					if($data = $this->upload->do_multi_upload("photoimg")) 
+					{
+						$gallery = array_column($this->upload->get_multi_upload_data(), 'file_name');
+					}
+					else
+					{
+						print_r($this->upload->display_errors());
+					}
+					$arr=array();
+					foreach ($gallery as $path) 
+					{
+						array_push($arr,array('pro_id'=>$id,'path'=>'uploads/properties/'.$path));	
+					}
+					$this->properties_model->add($arr,'image');	
 				}
-				else
-				{
-					print_r($this->upload->display_errors());
-				}
-				$arr=array();
-				foreach ($gallery as $path) 
-				{
-					array_push($arr,array('pro_id'=>$id,'path'=>'uploads/properties/'.$path));	
-				}
-				if($this->properties_model->add($arr,'image'))
-				{
-					redirect(base_url('properties/'.$id));
-				}		
 				$property = array(
 						    'title' => $this->input->post('title'),
 						    'description' => $this->input->post('description'),
@@ -216,6 +217,7 @@ class Properties extends MY_Controller
 						}
 					}
 				}
+				redirect('properties/'.$id,'refresh');
 			}
 			else
 			{
@@ -343,6 +345,12 @@ class Properties extends MY_Controller
 		{
 			echo "yes";
 		}
+	}
+
+	public function cancel()
+	{
+		$referred_from= $this->session->userdata('referred_from');
+		redirect($referred_from,'refresh');
 	}
 }
 

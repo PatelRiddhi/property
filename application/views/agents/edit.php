@@ -18,9 +18,6 @@ $(document).ready(function(){
             last_name: {
                 required: true
             },
-            profile:{
-                required: true
-            },
             post: {
                 required: true
             },
@@ -50,9 +47,6 @@ $(document).ready(function(){
             },
             last_name: {
                 required: "Please Enter Last Name"
-            },
-            profile: {
-                required: "Please Choose Profile"
             },
             post: {
                 required: "Please Enter Post"

@@ -16,9 +16,9 @@
                                         <div class="panel">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title">
-                                                    <img src="<?php echo base_url($property['thumbnail']);?>" style="float:left;" height="80" width="80">
+                                                    <img src="<?php echo base_url($property['thumbnail']);?>" style="float:left;" height="100" width="100">
                                                 
-                                                   <br><br><br>More information about <?php echo $property['title']; ?>; 
+                                                   <h1>&nbsp;More information about <?php echo $property['title']; ?> </h1>
                                                 </h4>
                                             </div>
                                         </div>
@@ -59,42 +59,74 @@
                                                 <h5><?php echo $property['garages']; ?></h5>
                                             </div>
                                         </div>
-                                        <div class="panel">
+                                        <?php
+                                        if($property['facebook_url']!='')
+                                        {
+                                        ?>
+                                             <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Facebook URL :</label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['facebook_url']; ?></h5>
+                                                <h5 class="h5"><?php echo $property['facebook_url']; ?></h5>
                                             </div>
                                         </div>
+                                        <?php
+                                        }
+                                        if($property['twitter_url']!='')
+                                        {
+                                        ?>
                                         <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Twitter URL :</label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['twitter_url']; ?></h5>
+                                                <h5 class="h5"><?php echo $property['twitter_url']; ?></h5>
                                             </div>
                                         </div>
+                                         <?php
+                                        }
+                                        if($property['linked_in_url']!='')
+                                        {
+                                        ?>
                                         <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">LinkedIn URL :</label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['linked_in_url']; ?></h5>
+                                                <h5  class="h5"><?php echo $property['linked_in_url']; ?></h5>
                                             </div>
                                         </div>
+                                         <?php
+                                        }
+                                        if($property['vimeo-square_url']!='')
+                                        {
+                                        ?>
                                         <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Vimeo-square URL :</label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['vimeo-square_url']; ?></h5>
+                                                <h5  class="h5"><?php echo $property['vimeo-square_url']; ?></h5>
                                             </div>
                                         </div>
+                                         <?php
+                                        }
+                                        if($property['you_tube_url']!='')
+                                        {
+                                        ?>
                                         <div class="panel">
-                                            <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">YouTube URL :</label>
+                                            <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">YouTube URL </label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['you_tube_url']; ?></h5>
+                                                <h5  class="h5">:<?php echo $property['you_tube_url']; ?></h5>
                                             </div>
                                         </div>
+                                         <?php
+                                        }
+                                        if($property['twitter_url']!='')
+                                        {
+                                        ?>
                                         <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Twitter URL :</label>
                                             <div class="col-lg-10">
-                                                <h5><?php echo $property['twitter_url']; ?></h5>
+                                                <h5 class="h5"><?php echo $property['twitter_url']; ?></h5>
                                             </div>
                                         </div>
+                                         <?php
+                                        }
+                                        ?>
                                         <div class="panel">
                                             <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Address :</label>
                                             <div class="col-lg-10">
@@ -145,7 +177,7 @@
                                             </div>
                                         </div>
                                         <div class="panel">
-                                            <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Agents:</label>
+                                            <label class="col-sm-2 control-label col-lg-2" for="inputSuccess">Agents</label>
                                             <div class="col-lg-10">
                                                 <div class="col-lg-10">
 
@@ -153,7 +185,7 @@
                                                     foreach($property['agents'] as $value)
                                                     {
                                                 ?>
-                                                			<h5><?php echo $value['first_name'].$value['last_name']; ?></h5>
+                                                			<h5>:<?php echo $value['first_name'].$value['last_name']; ?></h5>
                                                 <?php
                                                     } 
                                                 ?>

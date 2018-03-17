@@ -7,7 +7,7 @@
                     <div class="block-content-inner">
                         <div class="row">
                             <div class="col-sm-9">
-                                <h2 class="property-detail-title"><?php echo ucfirst($property['title']); ?></h2>
+                                <h2 class="property-detail-title"><?php echo ucfirst($property['title']); ?>  <a href="<?php echo base_url('properties/manage/').$property['id'];?>" class="btn btn-primary btn-inversed btn-small"><i class="fa fa-pencil"></i>Edit</a></h2>
                                 <h3 class="property-detail-subtitle"><?php echo ucfirst($property['state']); ?>, <?php echo ucfirst($property['city']); ?><strong>$ <?php echo $property['prize']; ?></strong></h3>
 
                                 <div class="property-detail-overview">

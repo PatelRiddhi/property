@@ -94,32 +94,133 @@ class Properties extends MY_Controller
 	 * @param  [integer] $id select id for update data from the table
 	 * @return [boolean] 
 	 */
-	// public function edit($id)
-	// {
-	// 	if($this->input->post())
-	// 	{
-	// 		$data = array(
-	// 						'title' =>$this->input->post('title') ,
-	// 						'year' =>$this->input->post('year') ,
-	// 						'duration' =>$this->input->post('duration') ,
-	// 						'language' =>$this->input->post('language') ,
-	// 						'release_date' =>$this->input->post('release_date') ,
-	// 						'country' =>$this->input->post('country') 
-	// 					);
-	// 		$this->movies_model->update($id, $data);
-	// 		$referred_from = $this->session->userdata('referred_from');
-	// 		redirect($referred_from, 'refresh');
-	// 	}
-	// 	else
-	// 	{
-	// 		$data['genres'] = $this->genres_model->get_all();
-	// 		$data['directors'] = $this->directors_model->get_all();
-	// 		$data['movie'] = $this->movies_model->get_by_id($id);
-	// 		$data['content'] =$this->load->view('movies/edit', $data, TRUE);	
-	// 		$this->load->view('layout/default', $data);
+	public function edit($id)
+	{
+		if($this->input->post())
+		{
+			$config['upload_path'] = './uploads/properties';
+			$config['upload_url'] = base_url().'upload';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['max_size']  = '10000';
+			$config['max_width']  = '102040';
+			$config['max_height']  = '76800';
+			$this->upload->initialize($config);
+			if(empty($_FILES['profile']['name'][0]))
+			{
+				$path = $this->input->post('old_profile');
+			}
+			else
+			{
+				if($data = $this->upload->do_multi_upload("profile")) 
+				{
+					$path = 'uploads/properties/'.$this->upload->data()['file_name'];
+				}
+				else
+				{
+					print_r($this->upload->display_errors());
+				}
+					
+			}
+			if(!empty($_FILES['photoimg']['name'][0]))
+			{
+				if($data = $this->upload->do_multi_upload("photoimg")) 
+				{
+					$gallery = array_column($this->upload->get_multi_upload_data(), 'file_name');
+				}
+				else
+				{
+					print_r($this->upload->display_errors());
+				}
+				$arr=array();
+				foreach ($gallery as $path) 
+				{
+					array_push($arr,array('pro_id'=>$id,'path'=>'uploads/properties/'.$path));	
+				}
+				$this->properties_model->add($arr,'image');	
+			}
+			$agency = array(
+						'agency_id'=>$this->input->post('agencies'),
+						'pro_id'=>$id
+							);
+			$this->properties_model->edit_agency($agency,$this->input->post('old_agency_id'), 'project_agency');
+			$property = array(
+					    'title' => $this->input->post('title'),
+					    'description' => $this->input->post('description'),
+					    'address' => $this->input->post('address'),
+					    'bath' => $this->input->post('bath'),
+					    'area' => $this->input->post('area'),
+					    'beds' => $this->input->post('beds'),
+					    'prize' => $this->input->post('prize'),
+					    'garages' => $this->input->post('garages'),
+					    'facebook_url' => $this->input->post('facebook_url'),
+					    'twitter_url' => $this->input->post('twitter_url'),
+					    'linked_in_url' => $this->input->post('linkedin_url'),
+					    'vimeo-square_url' => $this->input->post('vimeo_square_url'),
+					    'you_tube_url' => $this->input->post('youtube_url'),
+					    'country' => $this->input->post('country'),
+					    'state' => $this->input->post('state'),
+					    'city' => $this->input->post('city'),
+					    'pro_type_id' => $this->input->post('property_type'),
+					    'status' => $this->input->post('status'),
+					    'thumbnail' => $path
+						);	
+			$this->properties_model->update($id, $property, 'properties');
 
-	// 	}
-	// }
+			//For update amenities..
+			$old_aminities = array_column($this->aminities_model->get_aminities($id),'amen_id');
+			$new_aminities = $this->input->post('aminities');
+			if(array_diff($old_aminities,$new_aminities)!='')
+			{
+				//For deleting amenities
+				foreach ($old_aminities as $value) 
+				{
+					if(in_array($value, $new_aminities)!=TRUE)
+					{
+						$data = array(
+									'pro_id' => $id,
+									'amen_id' => $value,
+									);
+						$amenity = $this->aminities_model->get_amenity($data);
+						$this->aminities_model->delete($amenity['id']);
+					}
+				}
+				foreach ($new_aminities as $value) 
+				{
+					if(in_array($value, $old_aminities)!=TRUE)
+					{
+						$data = array(
+									'pro_id' => $id,
+									'amen_id' => $value,
+									);
+						$this->aminities_model->add($data);
+					}
+				}
+			}
+
+			redirect('admin/properties/','refresh');
+		}
+		else
+		{
+			$data['property'] = $this->properties_model->get_by_id($id);
+			//to get array of project aminities
+			$data['property']['aminities'] = array();
+			$pro_aminities = $this->aminities_model->get_aminities($id);
+			foreach ($pro_aminities as $key=>$value) 
+			{
+				array_push($data['property']['aminities'], $value['amen_id']);
+			}
+			$data['property']['agency'] = $this->properties_model->get_agency($id)[0]['agency_id'];
+			$images = $this->properties_model->get_images($id);
+			$data['property']['images'] = array_column($images, 'path','id');
+			$data['type'] = $this->properties_model->get_type();
+			$data['agencies']= $this->agencies_model->get_all();
+			$data['aminities'] = $this->aminities_model->get_all();
+			$data['countries'] = $this->properties_model->get_countries();
+			$data['content'] =$this->load->view('admin/properties/edit', $data, TRUE);	
+			$this->load->view('admin/layout/default', $data);
+
+		}
+	}
 
 	/**
 	 * This function is simply we can redirect index page for this controller to avoid any add or update prodess
@@ -129,6 +230,99 @@ class Properties extends MY_Controller
 	{
 		$referred_from = $this->session->userdata('referred_from');
 		redirect($referred_from, 'refresh');
+	}
+
+	public function add()
+	{
+		if($this->input->post())
+		{
+			$config['upload_path'] = './uploads/properties';
+			$config['upload_url'] = base_url().'upload';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$config['max_size']  = '10000';
+			$config['max_width']  = '102040';
+			$config['max_height']  = '76800';
+			$this->upload->initialize($config);
+			if($data = $this->upload->do_multi_upload("photoimg")) 
+			{
+				$gallery = array_column($this->upload->get_multi_upload_data(), 'file_name');
+				echo '<pre>';
+				print_r($gallery);
+			}
+			else
+			{
+				print_r($this->upload->display_errors());
+			}
+			if($data = $this->upload->do_multi_upload("profile")) 
+			{
+				$path = 'uploads/properties/'.$this->upload->data()['file_name'];
+			}
+			else
+			{
+				print_r($this->upload->display_errors());
+			}
+			$property = array(
+						    'title' => $this->input->post('title'),
+						    'description' => $this->input->post('description'),
+						    'address' => $this->input->post('address'),
+						    'bath' => $this->input->post('bath'),
+						    'area' => $this->input->post('area'),
+						    'beds' => $this->input->post('beds'),
+						    'prize' => $this->input->post('prize'),
+						    'garages' => $this->input->post('garages'),
+						    'facebook_url' => $this->input->post('facebook_url'),
+						    'twitter_url' => $this->input->post('twitter_url'),
+						    'linked_in_url' => $this->input->post('linkedin_url'),
+						    'vimeo-square_url' => $this->input->post('vimeo_square_url'),
+						    'you_tube_url' => $this->input->post('youtube_url'),
+						    'country' => $this->input->post('country'),
+						    'state' => $this->input->post('state'),
+						    'city' => $this->input->post('city'),
+						    'pro_type_id' => $this->input->post('property_type'),
+						    'status' => $this->input->post('status'),
+						    'thumbnail' => $path
+							);
+				
+			if($pro_id = $this->properties_model->add($property))
+			{
+				$agency = array(
+							'agency_id' => $this->input->post('agencies'),
+							'pro_id' => $pro_id
+						);
+				$this->properties_model->add_agency($agency);	
+			}
+				$aminities = $this->input->post('aminities');
+				$property['aminities'] = array();
+				foreach ($aminities as $value) 
+				{
+					array_push($property['aminities'], array('pro_id'=>$pro_id, 'amen_id'=>$value));
+				}
+				$this->properties_model->add($property['aminities'], 'aminities');
+				
+				if($pro_id)
+				{
+					$arr=array();
+					foreach ($gallery as $path) 
+					{
+					     array_push($arr,array('pro_id'=>$pro_id,'path'=>'uploads/properties/'.$path));	
+					}
+					if($this->properties_model->add($arr,'image'))
+					{
+						redirect(base_url('admin/properties/more/'.$pro_id));
+					}		
+				}
+		}
+		else
+		{
+			$data['agencies']= $this->agencies_model->get_all();
+			$data['type'] = $this->properties_model->get_type();
+			$data['aminities'] = $this->aminities_model->get_all();
+			$data['countries'] = $this->properties_model->get_countries();
+			//$data['aminities']=$this->aminities_model->get_all();
+			$data['content'] =$this->load->view('admin/properties/add',$data, TRUE);	
+			$this->load->view('admin/layout/default', $data);
+		}
+		
 	}
 
 	/**

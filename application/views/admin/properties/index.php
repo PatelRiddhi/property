@@ -29,6 +29,7 @@
           <div class="row">
             <div class="col-lg-6">
               <p>
+                <a href="<?php echo base_url('admin/properties/add/'); ?>" class="btn btn-primary">Add New</a>
                 <form id="checkboxdata" method="post" >
             </div>
             <div class="col-lg-12 pull-right">
@@ -65,7 +66,7 @@ foreach ($properties as $row)
                     <td><input type="checkbox" class="checkbBoxClass" id="select" name="select[]" value="<?php echo $row['id'] ?>"></td>
                     <td><?php echo $start+1;  $start++; ?></td>
                     <td><?php echo ucfirst($row['title']); ?></td>
-                   	<td><?php if($row['status'] == 'rent')
+                   	<td>$ <?php if($row['status'] == 'rent')
                             { echo $row['prize']."/month"; } 
                             else 
                             {
@@ -76,7 +77,16 @@ foreach ($properties as $row)
                     <td><?php echo ucfirst($row['city']); ?></td>
                     <td><?php echo ucfirst($row['state']); ?></td>
                     <td><?php echo ucfirst($row['country']); ?></td>
-                    <td><?php echo ucfirst($row['status']); ?></td>
+                    <td><?php if($row['status'] == 'rent')
+                              { 
+                                  echo ucfirst($row['status']);; 
+                              } 
+                              else 
+                              {
+                                  echo $row['prize'];
+                              }?>
+
+                     ?></td>
                     <td><img src="<?php echo base_url($row['thumbnail']); ?>" height="80" width="80"></img></td>
                     <td><a href= "<?php echo base_url('admin/properties/edit/').$row['id'];?>" > Edit </a> |
                     <a href= "<?php echo base_url('admin/properties/delete/').$row['id'];?>" onclick="return confirm('Are you sure you want to delete this data?');">  Delete </a> |
